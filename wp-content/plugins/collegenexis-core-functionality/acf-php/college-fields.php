@@ -185,6 +185,7 @@ acf_add_local_field_group(array(
 			'insert' => 'append',
 			'library' => 'all',
 		),
+
 		array(
 			'key' => 'field_college_is_featured',
 			'label' => 'Is Featured?',
@@ -197,6 +198,8 @@ acf_add_local_field_group(array(
 			'ui_on_text' => 'Featured',
 			'ui_off_text' => 'Not Featured',
 		),
+=======
+
 	),
 	'location' => array(
 		array(
@@ -208,6 +211,7 @@ acf_add_local_field_group(array(
 		),
 	),
 	'menu_order' => 0,
+
 	'position' => 'acf_after_title', // Changed to place fields higher for better visibility. 'normal' is also fine.
 	'style' => 'default',
 	'label_placement' => 'top',
@@ -228,6 +232,18 @@ acf_add_local_field_group(array(
 	),
 	'active' => true,
 	'description' => 'Comprehensive custom fields for College profiles, designed for easy data entry and import compatibility.',
+=======
+	'position' => 'normal',
+	'style' => 'default', // Or 'seamless'
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => array(
+		// Example: Hide default custom fields meta box if you manage everything via ACF
+		// 0 => 'custom_fields',
+	),
+	'active' => true,
+	'description' => 'Custom fields for College profiles.',
+
 ));
 
 endif;

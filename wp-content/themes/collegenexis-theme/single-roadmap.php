@@ -14,6 +14,7 @@ get_header();
 			while ( have_posts() ) :
 				the_post();
 
+
 				the_post();
 				?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class('roadmap-profile'); ?>>
@@ -114,6 +115,10 @@ get_header();
 				<?php
 
 				// If comments are open or we have at least one comment, load up the comment template.
+=======
+				get_template_part( 'template-parts/content', get_post_type() ); // Uses content-roadmap.php if it exists
+
+
 				if ( comments_open() || get_comments_number() ) :
 					comments_template();
 				endif;

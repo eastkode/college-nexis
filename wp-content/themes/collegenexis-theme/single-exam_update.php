@@ -14,6 +14,7 @@ get_header();
 			while ( have_posts() ) :
 				the_post();
 
+
 				the_post();
 				?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class('exam-update-profile'); ?>>
@@ -84,6 +85,9 @@ get_header();
 					</footer><!-- .entry-footer -->
 				</article><!-- #post-<?php the_ID(); ?> -->
 				<?php
+=======
+				get_template_part( 'template-parts/content', get_post_type() ); // Uses content-exam_update.php if it exists
+
 
 				// Exam updates might not need comments, but the option is here
 				if ( comments_open() || get_comments_number() ) :

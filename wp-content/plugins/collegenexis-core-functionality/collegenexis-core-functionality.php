@@ -427,6 +427,7 @@ function collegenexis_core_include_acf_php_definitions() {
 // }
 
 
+
 // College Admin Columns
 // =====================
 
@@ -567,6 +568,8 @@ function collegenexis_core_course_custom_orderby( $query ) {
 // However, if we want to filter by custom fields, we'd need more complex additions.
 // For now, relying on default taxonomy filters which are enabled by `show_admin_column = true`
 // in `collegenexis_core_register_taxonomies`.
+
+=======
 
 // End of plugin file
 ?>

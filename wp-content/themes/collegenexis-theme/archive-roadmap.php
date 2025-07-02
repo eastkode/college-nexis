@@ -20,6 +20,7 @@ get_header();
 				</header><!-- .page-header -->
 
 				<?php
+
 					<?php
 						the_archive_title( '<h1 class="page-title">', '</h1>' );
 						the_archive_description( '<div class="archive-description">', '</div>' );
@@ -57,6 +58,15 @@ get_header();
 				?>
 				</div> <!-- .roadmap-listings-list -->
 				<?php
+=======
+				/* Start the Loop */
+				while ( have_posts() ) :
+					the_post();
+
+					get_template_part( 'template-parts/content', get_post_type() ); // content-roadmap.php or content.php
+
+				endwhile;
+
 
 				the_posts_navigation();
 

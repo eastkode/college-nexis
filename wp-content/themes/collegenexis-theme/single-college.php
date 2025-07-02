@@ -16,6 +16,7 @@ get_header();
 			while ( have_posts() ) :
 				the_post();
 
+
 				the_post();
 				?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class('college-profile'); ?>>
@@ -210,6 +211,9 @@ get_header();
 				</article><!-- #post-<?php the_ID(); ?> -->
 
 				<?php
+=======
+				get_template_part( 'template-parts/content', get_post_type() ); // Uses content-college.php if it exists, otherwise content.php
+
 				// If comments are open or we have at least one comment, load up the comment template.
 				if ( comments_open() || get_comments_number() ) :
 					comments_template();
@@ -219,6 +223,10 @@ get_header();
 					array(
 						'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous College:', 'collegenexis-theme' ) . '</span> <span class="nav-title">%title</span>',
 						'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next College:', 'collegenexis-theme' ) . '</span> <span class="nav-title">%title</span>',
+=======
+						'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'collegenexis-theme' ) . '</span> <span class="nav-title">%title</span>',
+						'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'collegenexis-theme' ) . '</span> <span class="nav-title">%title</span>',
+
 					)
 				);
 

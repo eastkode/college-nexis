@@ -9,13 +9,19 @@ acf_add_local_field_group(array(
 	'title' => 'Course Details',
 	'fields' => array(
 		array(
+
 			'key' => 'field_course_basic_details_tab',
 			'label' => 'Basic Details',
+
+			'key' => 'field_course_description_tab',
+			'label' => 'Overview',
+
 			'type' => 'tab',
 			'placement' => 'top',
 			'endpoint' => 0,
 		),
 		array(
+
 			'key' => 'field_course_category_taxonomy',
 			'label' => 'Course Category',
 			'name' => 'course_category_taxonomy',
@@ -79,18 +85,45 @@ acf_add_local_field_group(array(
 			'name' => 'course_general_fee_details',
 			'type' => 'wysiwyg', // Using WYSIWYG to allow for more flexible formatting of fee ranges, types, etc.
 			'instructions' => 'Provide a general overview of the fee structure for this course (e.g., "Typically ranges from ₹X to ₹Y depending on the college"). Specific fees per college are listed on the College profile.',
+=======
+			'key' => 'field_course_summary',
+			'label' => 'Brief Summary',
+			'name' => 'course_summary',
+			'type' => 'textarea',
+			'instructions' => 'A short summary of the course (1-2 sentences). Used in listings.',
+			'maxlength' => 300,
+		),
+		array(
+			'key' => 'field_course_duration',
+			'label' => 'Course Duration',
+			'name' => 'course_duration',
+			'type' => 'text',
+			'instructions' => 'e.g., 3 Years, 4 Semesters',
+		),
+		array(
+			'key' => 'field_course_eligibility',
+			'label' => 'Eligibility Criteria',
+			'name' => 'course_eligibility',
+			'type' => 'wysiwyg',
+
 			'tabs' => 'all',
 			'toolbar' => 'basic',
 			'media_upload' => 0,
 		),
 		array(
+
 			'key' => 'field_course_career_prospects_tab',
 			'label' => 'Career Prospects & Scope',
+=======
+			'key' => 'field_course_scope_tab',
+			'label' => 'Career & Scope',
+
 			'type' => 'tab',
 			'placement' => 'top',
 			'endpoint' => 0,
 		),
 		array(
+
 			'key' => 'field_course_career_scope_description',
 			'label' => 'Career Scope & Opportunities',
 			'name' => 'course_career_scope_description',
@@ -120,11 +153,37 @@ acf_add_local_field_group(array(
 		array(
 			'key' => 'field_course_entrance_info_tab',
 			'label' => 'Entrance & Admission',
+
+			'key' => 'field_course_career_scope',
+			'label' => 'Career Scope',
+			'name' => 'course_career_scope',
+			'type' => 'wysiwyg',
+			'instructions' => 'Describe the career opportunities after completing this course.',
+		),
+		array(
+			'key' => 'field_course_future_opportunities',
+			'label' => 'Future Opportunities',
+			'name' => 'course_future_opportunities',
+			'type' => 'wysiwyg',
+			'instructions' => 'Higher studies options or advanced roles.',
+		),
+		array(
+			'key' => 'field_course_avg_salary',
+			'label' => 'Average Starting Salary (Approx)',
+			'name' => 'course_avg_salary',
+			'type' => 'text',
+			'instructions' => 'e.g., INR 3-5 LPA',
+		),
+		array(
+			'key' => 'field_course_colleges_tab',
+			'label' => 'Colleges & Fees',
+
 			'type' => 'tab',
 			'placement' => 'top',
 			'endpoint' => 0,
 		),
 		array(
+
 			'key' => 'field_course_entrance_exams_summary',
 			'label' => 'Entrance Exams Summary',
 			'name' => 'course_entrance_exams_summary',
@@ -140,21 +199,69 @@ acf_add_local_field_group(array(
 			'name' => 'course_colleges_offering_this',
 			'type' => 'relationship',
 			'instructions' => 'This is an informational field. The primary management of which college offers which course (and specific fees) is done on the College profile page.',
+
+			'key' => 'field_course_colleges_offering',
+			'label' => 'Colleges Offering This Course',
+			'name' => 'course_colleges_offering',
+			'type' => 'relationship',
+
 			'post_type' => array(
 				0 => 'college',
 			),
 			'taxonomy' => '',
 			'filters' => array(
 				0 => 'search',
+
 				1 => 'taxonomy',
+
+				1 => 'taxonomy', // Allow filtering by college_type if needed
+
 			),
 			'elements' => array(
 				0 => 'featured_image',
 			),
 			'min' => '',
 			'max' => '',
+
 			'return_format' => 'object',
 		),
+
+			'return_format' => 'object', // Or 'id'
+			'instructions' => 'Select colleges that offer this course.',
+		),
+		array(
+			'key' => 'field_course_average_fees',
+			'label' => 'Average Course Fees',
+			'name' => 'course_average_fees',
+			'type' => 'text',
+			'instructions' => 'e.g., INR 1,00,000 to 5,00,000 total',
+		),
+		array(
+			'key' => 'field_course_exams_tab',
+			'label' => 'Entrance Exams',
+			'type' => 'tab',
+			'placement' => 'top',
+			'endpoint' => 0,
+		),
+		array(
+			'key' => 'field_course_entrance_exams_info',
+			'label' => 'Entrance Exams Information',
+			'name' => 'course_entrance_exams_info',
+			'type' => 'wysiwyg',
+			'instructions' => 'List common entrance exams for this course, their patterns, etc. You can also link to Exam Update posts.',
+		),
+		// Potentially a relationship field to 'exam_update' CPT if you want direct linking
+		// array(
+		// 	'key' => 'field_course_related_exams',
+		// 	'label' => 'Related Entrance Exams',
+		// 	'name' => 'course_related_exams',
+		// 	'type' => 'relationship',
+		// 	'post_type' => array(
+		// 		0 => 'exam_update',
+		// 	),
+		// 	'return_format' => 'object',
+		// ),
+
 	),
 	'location' => array(
 		array(
@@ -166,6 +273,7 @@ acf_add_local_field_group(array(
 		),
 	),
 	'menu_order' => 0,
+
 	'position' => 'acf_after_title', // Consistent with College CPT
 	'style' => 'default',
 	'label_placement' => 'top',
@@ -178,6 +286,15 @@ acf_add_local_field_group(array(
 	),
 	'active' => true,
 	'description' => 'Comprehensive custom fields for Course profiles.',
+
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => array(),
+	'active' => true,
+	'description' => 'Custom fields for Course profiles.',
+
 ));
 
 endif;

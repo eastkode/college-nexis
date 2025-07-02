@@ -73,6 +73,15 @@ get_header();
 				</div> <!-- .exam-update-listings-list -->
 				<?php
 
+				/* Start the Loop */
+				while ( have_posts() ) :
+					the_post();
+
+					get_template_part( 'template-parts/content', get_post_type() ); // content-exam_update.php or content.php
+
+				endwhile;
+
+
 				the_posts_navigation();
 
 			else :
