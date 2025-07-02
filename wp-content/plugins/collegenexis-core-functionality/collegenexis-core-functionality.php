@@ -427,5 +427,149 @@ function collegenexis_core_include_acf_php_definitions() {
 // }
 
 
+
+// College Admin Columns
+// =====================
+
+// Add custom columns to the college post type listing
+add_filter( 'manage_college_posts_columns', 'collegenexis_core_set_college_columns' );
+function collegenexis_core_set_college_columns( $columns ) {
+    $new_columns = array();
+    $new_columns['cb'] = $columns['cb'];
+    $new_columns['title'] = $columns['title']; // College Name
+    $new_columns['college_logo'] = __( 'Logo', 'collegenexis-core' );
+    $new_columns['college_city'] = __( 'City', 'collegenexis-core' );
+    $new_columns['college_state'] = __( 'State', 'collegenexis-core' );
+    $new_columns['college_est_year'] = __( 'Estd. Year', 'collegenexis-core' );
+    $new_columns['taxonomy-college_type'] = __( 'Category', 'collegenexis-core' ); // Default taxonomy column
+    $new_columns['date'] = $columns['date'];
+    return $new_columns;
+}
+
+// Populate the custom columns for the college post type
+add_action( 'manage_college_posts_custom_column', 'collegenexis_core_college_custom_column_content', 10, 2 );
+function collegenexis_core_college_custom_column_content( $column, $post_id ) {
+    switch ( $column ) {
+        case 'college_logo':
+            $logo_data = get_field( 'college_logo_image', $post_id );
+            if ( $logo_data && isset($logo_data['sizes']['thumbnail']) ) {
+                echo '<img src="' . esc_url( $logo_data['sizes']['thumbnail'] ) . '" alt="' . esc_attr( $logo_data['alt'] ) . '" style="width: 60px; height: auto;" />';
+            } elseif ( has_post_thumbnail( $post_id ) ) {
+                echo get_the_post_thumbnail( $post_id, array(60, 60) );
+            } else {
+                echo '—';
+            }
+            break;
+        case 'college_city':
+            $city = get_field( 'college_city', $post_id );
+            echo $city ? esc_html( $city ) : '—';
+            break;
+        case 'college_state':
+            $state = get_field( 'college_state', $post_id );
+            echo $state ? esc_html( $state ) : '—';
+            break;
+        case 'college_est_year':
+            $year = get_field( 'college_establishment_year', $post_id );
+            echo $year ? esc_html( $year ) : '—';
+            break;
+    }
+}
+
+// Make custom college columns sortable
+add_filter( 'manage_edit-college_sortable_columns', 'collegenexis_core_make_college_columns_sortable' );
+function collegenexis_core_make_college_columns_sortable( $columns ) {
+    $columns['college_city'] = 'college_city';
+    $columns['college_state'] = 'college_state';
+    $columns['college_est_year'] = 'college_establishment_year';
+    $columns['taxonomy-college_type'] = 'taxonomy-college_type';
+    return $columns;
+}
+
+// Handle sorting for custom college columns
+add_action( 'pre_get_posts', 'collegenexis_core_college_custom_orderby' );
+function collegenexis_core_college_custom_orderby( $query ) {
+    if ( ! is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+
+    $orderby = $query->get( 'orderby' );
+    if ( 'college_city' === $orderby ) {
+        $query->set( 'meta_key', 'college_city' );
+        $query->set( 'orderby', 'meta_value' );
+    } elseif ( 'college_state' === $orderby ) {
+        $query->set( 'meta_key', 'college_state' );
+        $query->set( 'orderby', 'meta_value' );
+    } elseif ( 'college_establishment_year' === $orderby ) {
+        $query->set( 'meta_key', 'college_establishment_year' );
+        $query->set( 'orderby', 'meta_value_num' ); // Sort numerically
+    }
+}
+
+
+// Course Admin Columns
+// ====================
+
+// Add custom columns to the course post type listing
+add_filter( 'manage_course_posts_columns', 'collegenexis_core_set_course_columns' );
+function collegenexis_core_set_course_columns( $columns ) {
+    $new_columns = array();
+    $new_columns['cb'] = $columns['cb'];
+    $new_columns['title'] = $columns['title']; // Course Name
+    $new_columns['course_icon'] = __( 'Icon', 'collegenexis-core' );
+    $new_columns['taxonomy-course_category'] = __( 'Category', 'collegenexis-core' );
+    $new_columns['course_duration'] = __( 'Duration', 'collegenexis-core' );
+    $new_columns['date'] = $columns['date'];
+    return $new_columns;
+}
+
+// Populate the custom columns for the course post type
+add_action( 'manage_course_posts_custom_column', 'collegenexis_core_course_custom_column_content', 10, 2 );
+function collegenexis_core_course_custom_column_content( $column, $post_id ) {
+    switch ( $column ) {
+        case 'course_icon':
+            $icon_data = get_field( 'course_icon', $post_id );
+            if ( $icon_data && isset($icon_data['sizes']['thumbnail']) ) {
+                echo '<img src="' . esc_url( $icon_data['sizes']['thumbnail'] ) . '" alt="' . esc_attr( $icon_data['alt'] ) . '" style="width: 50px; height: auto;" />';
+            } else {
+                echo '—';
+            }
+            break;
+        case 'course_duration':
+            $duration = get_field( 'course_duration_details', $post_id );
+            echo $duration ? esc_html( $duration ) : '—';
+            break;
+    }
+}
+
+// Make custom course columns sortable
+add_filter( 'manage_edit-course_sortable_columns', 'collegenexis_core_make_course_columns_sortable' );
+function collegenexis_core_make_course_columns_sortable( $columns ) {
+    $columns['taxonomy-course_category'] = 'taxonomy-course_category';
+    $columns['course_duration'] = 'course_duration_details';
+    return $columns;
+}
+
+// Handle sorting for custom course columns
+add_action( 'pre_get_posts', 'collegenexis_core_course_custom_orderby' );
+function collegenexis_core_course_custom_orderby( $query ) {
+    if ( ! is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+
+    $orderby = $query->get( 'orderby' );
+    if ( 'course_duration_details' === $orderby ) {
+        $query->set( 'meta_key', 'course_duration_details' );
+        $query->set( 'orderby', 'meta_value' );
+    }
+}
+
+
+// Add admin filters for taxonomies (WordPress does this by default if show_admin_column is true for the taxonomy)
+// However, if we want to filter by custom fields, we'd need more complex additions.
+// For now, relying on default taxonomy filters which are enabled by `show_admin_column = true`
+// in `collegenexis_core_register_taxonomies`.
+
+=======
+
 // End of plugin file
 ?>

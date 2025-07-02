@@ -185,6 +185,21 @@ acf_add_local_field_group(array(
 			'insert' => 'append',
 			'library' => 'all',
 		),
+
+		array(
+			'key' => 'field_college_is_featured',
+			'label' => 'Is Featured?',
+			'name' => 'college_is_featured',
+			'type' => 'true_false',
+			'instructions' => 'Check this to feature this college on the homepage or other prominent sections.',
+			'message' => '',
+			'default_value' => 0,
+			'ui' => 1,
+			'ui_on_text' => 'Featured',
+			'ui_off_text' => 'Not Featured',
+		),
+=======
+
 	),
 	'location' => array(
 		array(
@@ -196,6 +211,28 @@ acf_add_local_field_group(array(
 		),
 	),
 	'menu_order' => 0,
+
+	'position' => 'acf_after_title', // Changed to place fields higher for better visibility. 'normal' is also fine.
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => array(
+		// 0 => 'the_content', // Hide default editor if all content is via ACF
+		1 => 'excerpt',
+		2 => 'discussion', // Hide discussion meta box
+		3 => 'comments', // Hide comments meta box
+		// 4 => 'custom_fields', // Already hidden by ACF usually
+		5 => 'slug', // useful to keep slug for permalink editing
+		// 6 => 'author',
+		// 7 => 'format',
+		// 8 => 'page_attributes',
+		// 9 => 'categories', // using our own college_category taxonomy field
+		// 10 => 'tags',
+		// 11 => 'send-trackbacks',
+	),
+	'active' => true,
+	'description' => 'Comprehensive custom fields for College profiles, designed for easy data entry and import compatibility.',
+=======
 	'position' => 'normal',
 	'style' => 'default', // Or 'seamless'
 	'label_placement' => 'top',
@@ -206,6 +243,7 @@ acf_add_local_field_group(array(
 	),
 	'active' => true,
 	'description' => 'Custom fields for College profiles.',
+
 ));
 
 endif;
