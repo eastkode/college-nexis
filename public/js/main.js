@@ -462,6 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
         loadHeroSlider(); // Homepage hero slider
         loadLatestPostsPreview(); // Homepage latest posts preview
+        initializeLogoCarousel(); // Homepage company logo carousel
     }
     // Blog page specific JS is in blog.js
     // Single post page specific JS is in single-post.js
@@ -503,6 +504,76 @@ async function loadLatestPostsPreview() {
         previewGrid.innerHTML = '<p>No posts to display yet.</p>';
     }
 }
+
+function initializeLogoCarousel() {
+    const carousel = document.getElementById('logo-carousel');
+    if (!carousel) return;
+
+    const logos = Array.from(carousel.children);
+    if (logos.length === 0) return;
+
+    // Duplicate logos for seamless looping
+    logos.forEach(logo => {
+        const clone = logo.cloneNode(true);
+        carousel.appendChild(clone);
+    });
+
+    let scrollAmount = 0;
+    const scrollSpeed = 0.5; // Adjust speed: lower is slower
+
+    function animateCarousel() {
+        scrollAmount -= scrollSpeed;
+        // If the first half of logos has scrolled out of view, reset scrollAmount
+        // This assumes all original logos have roughly the same width.
+        // A more robust way would be to calculate the width of the first set of logos.
+        const firstSetWidth = carousel.scrollWidth / 2;
+        if (Math.abs(scrollAmount) >= firstSetWidth) {
+            scrollAmount = 0;
+        }
+        carousel.style.transform = `translateX(${scrollAmount}px)`;
+        requestAnimationFrame(animateCarousel);
+    }
+
+    // Check if prefers-reduced-motion is enabled
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!mediaQuery || !mediaQuery.matches) {
+        requestAnimationFrame(animateCarousel);
+    }
+
+    // Optional: Pause on hover
+    const container = carousel.parentElement;
+    let animationFrameId;
+
+    const startAnimation = () => {
+        if (!mediaQuery || !mediaQuery.matches) {
+            cancelAnimationFrame(animationFrameId); // Clear any existing animation frame
+            animationFrameId = requestAnimationFrame(animateCarouselLoop);
+        }
+    };
+
+    const stopAnimation = () => {
+        cancelAnimationFrame(animationFrameId);
+    };
+
+    let currentScroll = 0;
+    function animateCarouselLoop() {
+        currentScroll -= scrollSpeed;
+        const firstSetWidth = carousel.scrollWidth / 2;
+        if (Math.abs(currentScroll) >= firstSetWidth) {
+            currentScroll = 0;
+        }
+        carousel.style.transform = `translateX(${currentScroll}px)`;
+        animationFrameId = requestAnimationFrame(animateCarouselLoop);
+    }
+
+    if (container) {
+        container.addEventListener('mouseenter', stopAnimation);
+        container.addEventListener('mouseleave', startAnimation);
+    }
+
+    startAnimation(); // Initial start
+}
+
 
 // Helper function to get URL parameters
 function getQueryParam(param) {

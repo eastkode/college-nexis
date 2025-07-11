@@ -120,18 +120,88 @@ header nav ul li a:hover {
 }
 
 /* --- Footer --- */
-footer {
-    background-color: var(--heading-color);
+.site-footer { /* Changed from just 'footer' to be more specific */
+    background-color: var(--heading-color); /* Dark background for footer */
     color: var(--light-gray-color);
-    padding: 30px 0;
-    text-align: center;
-    margin-top: 40px;
+    padding: 50px 0 30px 0;
+    margin-top: 50px;
 }
 
-footer p {
-    margin-bottom: 0;
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 250px; /* Ensure columns don't get too squished */
+}
+
+.footer-column h4 {
+    color: var(--white-color);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    position: relative;
+    padding-bottom: 10px;
+}
+.footer-column h4::after { /* Underline effect for footer headings */
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+.footer-column p {
+    font-size: 0.9em;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-column ul li a {
+    color: var(--light-gray-color);
+    font-size: 0.95em;
+    padding: 5px 0;
+    display: inline-block; /* For padding to work nicely */
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+.footer-column ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 5px; /* Slight indent on hover */
+}
+
+.social-icons a {
+    color: var(--light-gray-color);
+    font-size: 1.3em; /* Make icons a bit larger */
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+.social-icons a:hover {
+    color: var(--accent-color);
+}
+.social-icons a:last-child {
+    margin-right: 0;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #4a4a4a; /* Slightly lighter border within footer */
     font-size: 0.9em;
 }
+.footer-bottom p {
+    margin: 0;
+}
+
 
 /* --- Hero Section (Homepage & Blog) --- */
 .hero {
@@ -587,6 +657,116 @@ footer p {
 .post-content ol li {
     list-style-type: decimal;
 }
+
+
+/* --- Homepage Specific Sections --- */
+.courses-pursue, .companies-hiring, .trending-jobs {
+    padding: 50px 0;
+}
+.courses-pursue h2, .companies-hiring h2, .trending-jobs h2, .latest-posts-preview h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 40px;
+    color: var(--primary-color);
+}
+
+/* Courses Section */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+.course-card {
+    background-color: var(--white-color);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.course-card .course-icon {
+    font-size: 2.5em; /* Placeholder, replace with actual icons */
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    display: block; /* Or inline-block */
+    /* Example using Font Awesome: Ensure FA is linked in HTML
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f19d"; */
+}
+.course-card h3 {
+    font-size: 1.4em;
+    color: var(--heading-color);
+    margin-bottom: 10px;
+}
+.course-card p {
+    font-size: 0.95em;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+
+/* Companies Hiring Section - Logo Carousel */
+.logo-carousel-container {
+    overflow: hidden; /* Essential for carousel effect */
+    position: relative; /* For potential prev/next buttons if added */
+    padding: 20px 0;
+    background: var(--white-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+.logo-carousel {
+    display: flex; /* Enables horizontal layout */
+    /* Animation will be applied by JS or CSS animation */
+    /* For JS animation, JS will update transform: translateX() */
+    /* For CSS animation: */
+    /* animation: scrollLogos 30s linear infinite; */
+    width: max-content; /* Allow it to be wider than container for scrolling */
+}
+.logo-carousel img {
+    height: 60px; /* Adjust as needed */
+    width: auto; /* Maintain aspect ratio */
+    margin: 0 25px; /* Spacing between logos */
+    filter: grayscale(100%); /* Optional: make logos grayscale */
+    transition: filter 0.3s ease;
+}
+.logo-carousel img:hover {
+    filter: grayscale(0%); /* Color on hover */
+}
+
+/* Basic CSS animation for logo carousel (alternative to JS) */
+/* @keyframes scrollLogos {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Adjust -50% if you duplicate logos for seamless loop */
+/* } */
+
+
+/* Trending Jobs Section */
+.jobs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+.job-item {
+    background-color: var(--white-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border-left: 5px solid var(--accent-color); /* Accent border */
+}
+.job-item h3 {
+    font-size: 1.3em;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+}
+.job-item p {
+    font-size: 1em;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
 
 .sticky-share-buttons {
     margin-top: 30px;
