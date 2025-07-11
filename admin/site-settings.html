@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Settings - Admin</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar-admin">
+            <div class="sidebar-header"><h3>Admin Menu</h3></div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="manage-posts.html">Manage Posts</a></li>
+                    <li><a href="manage-categories.html">Manage Categories</a></li>
+                    <li><a href="manage-widgets.html">Manage Sidebar Widgets</a></li>
+                    <li><a href="manage-ads.html">Manage Ads</a></li>
+                    <li><a href="site-settings.html" class="active">Site Settings</a></li>
+                    <li><a href="#" id="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Site Settings</h1>
+            </header>
+
+            <section class="form-section">
+                <form id="site-settings-form">
+                    <div class="settings-group">
+                        <h3>General Settings</h3>
+                        <div class="form-group">
+                            <label for="setting-siteName">Site Name:</label>
+                            <input type="text" id="setting-siteName" name="siteName" class="form-control" data-setting-key="siteName">
+                            <small>Used in places like page titles or as a fallback.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-siteBaseUrl">Site Base URL:</label>
+                            <input type="url" id="setting-siteBaseUrl" name="siteBaseUrl" class="form-control" data-setting-key="siteBaseUrl" placeholder="https://www.yourdomain.com">
+                            <small>Important for sitemap generation and absolute URLs. Include http(s)://</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-faviconUrl">Favicon URL:</label>
+                            <input type="url" id="setting-faviconUrl" name="faviconUrl" class="form-control" data-setting-key="faviconUrl" placeholder="https://example.com/path/to/favicon.ico">
+                            <small>URL to your site's favicon. Clear to use default /favicon.ico.</small>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>SEO & Analytics</h3>
+                        <div class="form-group">
+                            <label for="setting-globalTitle">Global Meta Title Default:</label>
+                            <input type="text" id="setting-globalTitle" name="globalTitle" class="form-control" data-setting-key="globalTitle" maxlength="70">
+                            <small>Default title for pages if not specifically set.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-globalDescription">Global Meta Description Default:</label>
+                            <textarea id="setting-globalDescription" name="globalDescription" rows="3" class="form-control" data-setting-key="globalDescription" maxlength="160"></textarea>
+                            <small>Default meta description for pages if not specifically set.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-googleAnalyticsId">Google Analytics Tracking ID:</label>
+                            <input type="text" id="setting-googleAnalyticsId" name="googleAnalyticsId" class="form-control" data-setting-key="googleAnalyticsId" placeholder="UA-XXXXX-Y or G-XXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-webmasterMeta">Webmaster Tools Meta Tag (e.g., Google Site Verification):</label>
+                            <input type="text" id="setting-webmasterMeta" name="webmasterMeta" class="form-control" data-setting-key="webmasterMeta" placeholder="<meta name='google-site-verification' content='YOUR_CODE_HERE'>">
+                            <small>Paste the full HTML meta tag provided by webmaster tools.</small>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Footer</h3>
+                        <div class="form-group">
+                            <label for="setting-footerText">Custom Footer Text:</label>
+                            <textarea id="setting-footerText" name="footerText" rows="3" class="form-control" data-setting-key="footerText"></textarea>
+                            <small>Appears in the site footer. Basic HTML allowed. Default: &copy; YEAR College Nexis. All rights reserved.</small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save All Settings</button>
+                    </div>
+                    <p id="settings-status" class="status-message"></p>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/site-settings.js"></script>
+</body>
+</html>

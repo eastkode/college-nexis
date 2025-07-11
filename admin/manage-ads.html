@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Ads - Admin</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar-admin">
+            <div class="sidebar-header"><h3>Admin Menu</h3></div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="manage-posts.html">Manage Posts</a></li>
+                    <li><a href="manage-categories.html">Manage Categories</a></li>
+                    <li><a href="manage-widgets.html">Manage Sidebar Widgets</a></li>
+                    <li><a href="manage-ads.html" class="active">Manage Ads</a></li>
+                    <li><a href="site-settings.html">Site Settings</a></li>
+                    <li><a href="#" id="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Manage Ad Slots</h1>
+                <button id="add-new-ad-btn" class="btn btn-primary">Add New Ad Slot</button>
+            </header>
+
+            <section id="ads-list-section">
+                <h2>Current Ad Slots</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ads-table-body">
+                            <!-- Ad slots will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="ad-form-section" class="form-section" style="display:none;">
+                <h2 id="ad-form-title">Add New Ad Slot</h2>
+                <form id="ad-form">
+                    <input type="hidden" id="ad-id" name="adId">
+                    <div class="form-group">
+                        <label for="ad-name">Ad Slot Name (e.g., "Sidebar Top Ad"):</label>
+                        <input type="text" id="ad-name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ad-type">Ad Type:</label>
+                        <select id="ad-type" name="type" class="form-control" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="image">Image Ad</option>
+                            <option value="code">Embed Code (e.g., AdSense)</option>
+                        </select>
+                    </div>
+
+                    <div id="ad-type-fields">
+                        <!-- Fields for Image Ad -->
+                        <div class="form-group ad-config-field" data-ad-type="image" style="display:none;">
+                            <label for="ad-image-url">Image URL:</label>
+                            <input type="url" id="ad-image-url" name="imageUrl" class="form-control" placeholder="https://example.com/ad-banner.jpg">
+                            <small>Recommended: Upload image to a CDN or server and paste URL here.</small>
+                        </div>
+                        <div class="form-group ad-config-field" data-ad-type="image" style="display:none;">
+                            <label for="ad-link-url">Link URL (where image clicks to):</label>
+                            <input type="url" id="ad-link-url" name="linkUrl" class="form-control" placeholder="https://advertiser.com/product-page">
+                        </div>
+
+                        <!-- Fields for Embed Code Ad -->
+                        <div class="form-group ad-config-field" data-ad-type="code" style="display:none;">
+                            <label for="ad-embed-code">Ad Embed Code:</label>
+                            <textarea id="ad-embed-code" name="adCode" rows="5" class="form-control" placeholder="Paste your AdSense or other ad network code here."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="ad-isActive" name="isActive">
+                            Active (show this ad if used in a widget)
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Ad Slot</button>
+                        <button type="button" id="cancel-ad-edit-btn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/manage-ads.js"></script>
+</body>
+</html>

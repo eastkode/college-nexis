@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Sidebar Widgets - Admin</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar-admin">
+            <div class="sidebar-header"><h3>Admin Menu</h3></div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="manage-posts.html">Manage Posts</a></li>
+                    <li><a href="manage-categories.html">Manage Categories</a></li>
+                    <li><a href="manage-widgets.html" class="active">Manage Sidebar Widgets</a></li>
+                    <li><a href="manage-ads.html">Manage Ads</a></li>
+                    <li><a href="site-settings.html">Site Settings</a></li>
+                    <li><a href="#" id="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Manage Sidebar Widgets</h1>
+                <button id="add-new-widget-btn" class="btn btn-primary">Add New Widget</button>
+            </header>
+
+            <section id="widgets-list-section">
+                <h2>Current Sidebar Widgets</h2>
+                <p>Drag and drop to reorder widgets (feature to be implemented if time permits).</p>
+                <ul id="widgets-list" class="widget-list-admin">
+                    <!-- Widgets will be loaded and be sortable here -->
+                </ul>
+            </section>
+
+            <section id="widget-form-section" class="form-section" style="display:none;">
+                <h2 id="widget-form-title">Add New Widget</h2>
+                <form id="widget-form">
+                    <input type="hidden" id="widget-id" name="widgetId">
+                    <div class="form-group">
+                        <label for="widget-name">Widget Name (for identification):</label>
+                        <input type="text" id="widget-name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="widget-type">Type:</label>
+                        <select id="widget-type" name="type" class="form-control" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="latest_posts">Latest Posts</option>
+                            <option value="popular_posts">Popular Posts</option>
+                            <option value="custom_html">Custom HTML</option>
+                            <option value="ad_slot">Ad Slot</option>
+                        </select>
+                    </div>
+
+                    <!-- Type-specific configuration fields will appear here -->
+                    <div id="widget-config-fields">
+                        <!-- Example for 'latest_posts' or 'popular_posts' -->
+                        <div class="form-group config-field" data-widget-type="latest_posts popular_posts" style="display:none;">
+                            <label for="widget-config-limit">Number of Posts to Show:</label>
+                            <input type="number" id="widget-config-limit" name="config.limit" class="form-control" value="5" min="1" max="15">
+                        </div>
+
+                        <!-- Example for 'custom_html' -->
+                        <div class="form-group config-field" data-widget-type="custom_html" style="display:none;">
+                            <label for="widget-config-html">HTML Content:</label>
+                            <textarea id="widget-config-html" name="config.htmlContent" rows="5" class="form-control"></textarea>
+                        </div>
+
+                        <!-- Example for 'ad_slot' -->
+                        <div class="form-group config-field" data-widget-type="ad_slot" style="display:none;">
+                            <label for="widget-config-adId">Select Ad:</label>
+                            <select id="widget-config-adId" name="config.adId" class="form-control">
+                                <!-- Ad slots will be populated by JS -->
+                                <option value="">-- Select Ad Slot --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="widget-order">Display Order (0 is first):</label>
+                        <input type="number" id="widget-order" name="order" class="form-control" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="widget-isActive" name="isActive" checked>
+                            Active (show this widget in sidebar)
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Widget</button>
+                        <button type="button" id="cancel-widget-edit-btn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/manage-widgets.js"></script>
+</body>
+</html>
