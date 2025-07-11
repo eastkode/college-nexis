@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - College Nexis</title>
+    <meta name="description" content="Explore articles and insights on colleges, courses, exams, and careers.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Webmaster Tools meta will be injected here if set -->
+    <!-- Google Analytics script will be injected here -->
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">College Nexis</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-slider-container blog-hero-slider">
+            <div class="container">
+                <h2>Fresh Off The Press</h2>
+                <div class="hero-slider">
+                    <!-- Slides will be injected by JS - Same as homepage -->
+                </div>
+                <div class="slider-controls">
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-content">
+            <div class="container">
+                <div class="main-content">
+                    <div class="categories-section-tabs" id="category-tabs">
+                        <button class="category-tab active" data-category-slug="all">All Posts</button>
+                        <!-- Category tabs will be injected by JS -->
+                    </div>
+
+                    <h2>All Articles</h2>
+                    <div class="posts-grid" id="blog-posts-grid">
+                        <!-- 5 posts in card grid -->
+                    </div>
+
+                    <h2>More Reads</h2>
+                    <div class="posts-list" id="blog-posts-list">
+                        <!-- 6 posts in list view -->
+                    </div>
+
+                    <div class="pagination" id="pagination-controls">
+                        <!-- Pagination buttons will be dynamically added here -->
+                    </div>
+                </div>
+
+                <aside class="sidebar" id="sidebar-content">
+                    <!-- Sidebar widgets will be injected by JS -->
+                    <div class="widget"><h3>Loading Sidebar...</h3></div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p id="footer-text">&copy; 2023 College Nexis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/blog.js"></script>
+</body>
+</html>

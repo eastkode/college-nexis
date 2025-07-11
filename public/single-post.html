@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title and Meta Description will be dynamically set by JS -->
+    <title>Post Title - College Nexis</title>
+    <meta name="description" content="Post excerpt or beginning of content.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Webmaster Tools meta will be injected here if set -->
+    <!-- Google Analytics script will be injected here -->
+
+    <!-- Schema.org markup for BlogPosting -->
+    <script type="application/ld+json" id="post-schema-markup">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Post Title Will Be Here",
+      "image": "URL_to_featured_image",
+      "author": {
+        "@type": "Person",
+        "name": "Author Name"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "College Nexis",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "URL_to_logo_image_e.g._favicon"
+        }
+      },
+      "datePublished": "YYYY-MM-DD",
+      "dateModified": "YYYY-MM-DD",
+      "description": "Meta description of the post"
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">College Nexis</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <article class="single-post-content">
+            <header class="post-hero" id="post-hero-banner">
+                <!-- Background image will be set by JS -->
+                <div class="container">
+                    <h1 id="post-title">Loading Post...</h1>
+                    <p class="post-subtitle" id="post-subtitle"></p>
+                    <div class="post-meta">
+                        <span id="post-publish-date"></span> | By <span id="post-author"></span>
+                        | Category: <a href="#" id="post-category-link"><span id="post-category-name"></span></a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container post-body-container">
+                <section class="post-body-main">
+                    <div class="post-content" id="post-content-area">
+                        <!-- Post content injected by JS -->
+                    </div>
+                    <div class="sticky-share-buttons" id="sticky-share">
+                        <!-- Optional: Share buttons -->
+                        Share:
+                        <a href="#" id="share-facebook" target="_blank">FB</a> |
+                        <a href="#" id="share-twitter" target="_blank">TW</a> |
+                        <a href="#" id="share-linkedin" target="_blank">LI</a>
+                    </div>
+                </section>
+
+                <aside class="sidebar" id="sidebar-content-post">
+                    <!-- Sidebar widgets (related posts, popular, ads) will be injected by JS -->
+                     <div class="widget"><h3>Loading Sidebar...</h3></div>
+                </aside>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p id="footer-text">&copy; 2023 College Nexis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/single-post.js"></script>
+</body>
+</html>

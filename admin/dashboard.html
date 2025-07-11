@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - College Nexis</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar-admin">
+            <div class="sidebar-header">
+                <h3>Admin Menu</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="manage-posts.html">Manage Posts</a></li>
+                    <li><a href="manage-categories.html">Manage Categories</a></li>
+                    <li><a href="manage-widgets.html">Manage Sidebar Widgets</a></li>
+                    <li><a href="manage-ads.html">Manage Ads</a></li>
+                    <li><a href="site-settings.html">Site Settings</a></li>
+                    <li><a href="#" id="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Welcome, <span id="admin-username">Admin</span>!</h1>
+            </header>
+            <section class="dashboard-overview">
+                <h2>Overview</h2>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <h4>Total Posts</h4>
+                        <p id="total-posts-stat">Loading...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Categories</h4>
+                        <p id="total-categories-stat">Loading...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Active Ads</h4>
+                        <p id="active-ads-stat">Loading...</p>
+                    </div>
+                     <div class="stat-card">
+                        <h4>Sidebar Widgets</h4>
+                        <p id="total-widgets-stat">Loading...</p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Quick Actions</h2>
+                <div class="quick-actions">
+                    <a href="manage-posts.html?action=add" class="btn">Add New Post</a>
+                    <a href="manage-categories.html?action=add" class="btn">Add New Category</a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

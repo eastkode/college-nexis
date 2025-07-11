@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories - Admin</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar-admin">
+            <div class="sidebar-header"><h3>Admin Menu</h3></div>
+            <nav class="sidebar-nav">
+                 <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="manage-posts.html">Manage Posts</a></li>
+                    <li><a href="manage-categories.html" class="active">Manage Categories</a></li>
+                    <li><a href="manage-widgets.html">Manage Sidebar Widgets</a></li>
+                    <li><a href="manage-ads.html">Manage Ads</a></li>
+                    <li><a href="site-settings.html">Site Settings</a></li>
+                    <li><a href="#" id="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Manage Categories</h1>
+                <button id="add-new-category-btn" class="btn btn-primary">Add New Category</button>
+            </header>
+
+            <section id="categories-list-section">
+                <h2>Existing Categories</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Slug</th>
+                                <th>Post Count</th> <!-- Optional: good to show -->
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories-table-body">
+                            <!-- Categories will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="category-form-section" class="form-section" style="display:none;">
+                <h2 id="category-form-title">Add New Category</h2>
+                <form id="category-form">
+                    <input type="hidden" id="category-id" name="categoryId">
+                    <div class="form-group">
+                        <label for="category-name">Name:</label>
+                        <input type="text" id="category-name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">Description (Optional):</label>
+                        <textarea id="category-description" name="description" rows="3" class="form-control"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Category</button>
+                        <button type="button" id="cancel-category-edit-btn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/manage-categories.js"></script>
+</body>
+</html>
