@@ -534,46 +534,143 @@ function initializeLogoCarousel() {
         requestAnimationFrame(animateCarousel);
     }
 
-    // Check if prefers-reduced-motion is enabled
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!mediaQuery || !mediaQuery.matches) {
-        requestAnimationFrame(animateCarousel);
-    }
+// This function will fetch logos and then start the animation
+async function initializeLogoCarousel() {
+    const carousel = document.getElementById('logo-carousel');
+    if (!carousel) return;
 
-    // Optional: Pause on hover
-    const container = carousel.parentElement;
-    let animationFrameId;
+    // ***** IMPORTANT API KEY INSTRUCTION *****
+    // For your local testing, you can set this in your browser's developer console:
+    //   window.BRANDFETCH_API_KEY = "1id3jIHfKCPaRF59DUN";
+    // OR, for a quick test, replace BRANDFETCH_API_KEY_PLACEHOLDER below with your key,
+    // BUT REMEMBER TO REMOVE IT OR CHANGE IT BACK BEFORE COMMITTING/PUSHING CODE.
+    const apiKey = window.BRANDFETCH_API_KEY || "BRANDFETCH_API_KEY_PLACEHOLDER"; // Use placeholder if not set globally
 
-    const startAnimation = () => {
-        if (!mediaQuery || !mediaQuery.matches) {
-            cancelAnimationFrame(animationFrameId); // Clear any existing animation frame
-            animationFrameId = requestAnimationFrame(animateCarouselLoop);
+    if (apiKey === "BRANDFETCH_API_KEY_PLACEHOLDER") {
+        console.warn("Brandfetch API key not set. Using static placeholder images for logo carousel. Set window.BRANDFETCH_API_KEY to your key for dynamic logos.");
+        // If API key is not set, the static placeholders in HTML will be used.
+        // We still need to start their animation if they exist.
+        if (carousel.children.length > 0) {
+            startLogoCarouselAnimation(carousel, Array.from(carousel.children).length);
         }
-    };
+        return;
+    }
 
-    const stopAnimation = () => {
-        cancelAnimationFrame(animationFrameId);
-    };
+    const companyNames = ["Google", "Microsoft", "Amazon", "Infosys", "Wipro", "Accenture"];
+    carousel.innerHTML = '<div class="loading-spinner" style="width:100%; text-align:center;">Loading logos...</div>'; // Clear static placeholders & show loading
 
-    let currentScroll = 0;
-    function animateCarouselLoop() {
-        currentScroll -= scrollSpeed;
-        const firstSetWidth = carousel.scrollWidth / 2;
-        if (Math.abs(currentScroll) >= firstSetWidth) {
-            currentScroll = 0;
+    const logoPromises = companyNames.map(async (name) => {
+        try {
+            // Using the API key as a query parameter 'c' as per user's cURL example.
+            const apiUrl = `https://api.brandfetch.io/v2/search/${encodeURIComponent(name)}?c=${apiKey}`;
+            const apiResponse = await fetch(apiUrl);
+
+            if (!apiResponse.ok) {
+                console.warn(`Brandfetch API error for ${name}: ${apiResponse.status} ${apiResponse.statusText}. URL: ${apiUrl}`);
+                return { name, src: `https://via.placeholder.com/150x60.png?text=${name.replace(/\s+/g, '+')}+Not+Found`, alt: `${name} Logo (Not Found)` };
+            }
+
+            const data = await apiResponse.json();
+            let logoUrl = null;
+            const brandInfo = Array.isArray(data) ? data[0] : data;
+
+            if (brandInfo) {
+                if (brandInfo.logos && brandInfo.logos.length > 0) {
+                    const logoObject = brandInfo.logos.find(l => l.type === 'logo');
+                    if (logoObject && logoObject.formats && logoObject.formats.length > 0) {
+                        const svgLogo = logoObject.formats.find(f => f.format === 'svg' && f.src);
+                        const pngLogo = logoObject.formats.find(f => f.format === 'png' && f.src);
+                        logoUrl = svgLogo ? svgLogo.src : (pngLogo ? pngLogo.src : null);
+                    }
+                    if (!logoUrl && brandInfo.logos[0].formats && brandInfo.logos[0].formats.length > 0) {
+                         logoUrl = brandInfo.logos[0].formats[0].src;
+                    }
+                }
+                if (!logoUrl && brandInfo.icon) {
+                    logoUrl = brandInfo.icon;
+                } else if (!logoUrl && brandInfo.icons && brandInfo.icons.length > 0) {
+                     const svgIcon = brandInfo.icons.find(i => i.type === 'svg' && i.src);
+                     const pngIcon = brandInfo.icons.find(i => i.type === 'png' && i.src);
+                     logoUrl = svgIcon ? svgIcon.src : (pngIcon ? pngIcon.src : null);
+                     if(!logoUrl && brandInfo.icons[0].src) logoUrl = brandInfo.icons[0].src;
+                }
+            }
+
+            if (logoUrl) {
+                return { name, src: logoUrl, alt: `${name} Logo` };
+            } else {
+                console.warn(`Logo URL not found in Brandfetch response for ${name}.`);
+                return { name, src: `https://via.placeholder.com/150x60.png?text=${name.replace(/\s+/g, '+')}+Logo`, alt: `${name} Logo (Placeholder)` };
+            }
+        } catch (error) {
+            console.error(`Error fetching logo for ${name}:`, error);
+            return { name, src: `https://via.placeholder.com/150x60.png?text=${name.replace(/\s+/g, '+')}+Error`, alt: `${name} Logo (Error)` };
         }
-        carousel.style.transform = `translateX(${currentScroll}px)`;
-        animationFrameId = requestAnimationFrame(animateCarouselLoop);
-    }
+    });
 
-    if (container) {
-        container.addEventListener('mouseenter', stopAnimation);
-        container.addEventListener('mouseleave', startAnimation);
-    }
+    const loadedLogos = await Promise.all(logoPromises);
+    carousel.innerHTML = ''; // Clear loading message
 
-    startAnimation(); // Initial start
+    loadedLogos.forEach(logoData => {
+        const img = document.createElement('img');
+        img.src = logoData.src;
+        img.alt = logoData.alt;
+        carousel.appendChild(img);
+    });
+
+    if (carousel.children.length > 0) {
+        startLogoCarouselAnimation(carousel, companyNames.length); // Pass original number of logos
+    } else {
+        carousel.innerHTML = "<p>Could not load company logos.</p>";
+    }
 }
 
+// Renamed and adjusted animation function
+function startLogoCarouselAnimation(carouselElement, originalLogoCount) {
+    if (!carouselElement || !carouselElement.children || carouselElement.children.length === 0) return;
+
+    // Only duplicate if the number of children is equal to originalLogoCount (meaning not yet duplicated)
+    if (carouselElement.children.length === originalLogoCount) {
+        const originalLogos = Array.from(carouselElement.children);
+        originalLogos.forEach(logo => {
+            const clone = logo.cloneNode(true);
+            carouselElement.appendChild(clone);
+        });
+    }
+
+    let scrollAmount = 0;
+    const scrollSpeed = 0.5;
+    let animationFrameId;
+
+    function animate() {
+        scrollAmount -= scrollSpeed;
+        // Calculate width based on the first half of children (original set)
+        const firstSetWidth = carouselElement.scrollWidth / 2;
+        if (firstSetWidth > 0 && Math.abs(scrollAmount) >= firstSetWidth) {
+            scrollAmount = 0;
+        }
+        carouselElement.style.transform = `translateX(${scrollAmount}px)`;
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const start = () => {
+        if (!mediaQuery || !mediaQuery.matches) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = requestAnimationFrame(animate);
+        }
+    };
+    const stop = () => cancelAnimationFrame(animationFrameId);
+
+    const container = carouselElement.parentElement;
+    if (container) {
+        container.removeEventListener('mouseenter', stop);
+        container.removeEventListener('mouseleave', start);
+        container.addEventListener('mouseenter', stop);
+        container.addEventListener('mouseleave', start);
+    }
+    start();
+}
 
 // Helper function to get URL parameters
 function getQueryParam(param) {

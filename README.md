@@ -11,11 +11,11 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **Customizable:** Manage sidebar content, ad slots, and global site settings like Google Analytics ID, footer text, etc.
 *   **Responsive Design:** Ensures a good viewing experience across devices.
 *   **No Bloated Frameworks:** Frontend and Admin Panel use vanilla JS for speed and simplicity.
-*   **Enhanced Homepage:** Includes sections for "Courses to Pursue," "Companies Hiring (Logo Carousel)," and "Trending Jobs."
+*   **Enhanced Homepage:** Includes sections for "Courses to Pursue" (with Font Awesome icons), "Companies Hiring (Logo Carousel with Brandfetch API integration)," and "Trending Jobs."
 
 ## Tech Stack
 
-*   **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
+*   **Frontend:** HTML5, CSS3, JavaScript (Vanilla), Font Awesome
 *   **Backend:** Node.js, Express.js
 *   **Database:** MongoDB (MongoDB Atlas recommended)
 *   **Authentication:** JWT (JSON Web Tokens) for Admin Panel
@@ -28,6 +28,8 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
     *   `cors`: For enabling Cross-Origin Resource Sharing
     *   `slugify`: For generating URL-friendly slugs
     *   `xmlbuilder2`: For generating sitemap.xml
+*   **External Services/APIs (Optional but Recommended for Full Experience):**
+    *   **Brandfetch API:** Used for dynamically fetching company logos on the homepage. Requires an API key.
 
 ## Project Structure
 
@@ -63,6 +65,7 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   Node.js (v14.x or later recommended)
 *   npm (usually comes with Node.js)
 *   MongoDB Atlas account (or a local MongoDB instance)
+*   (Optional) Brandfetch API Key for dynamic company logos.
 
 ### 1. Clone the Repository
 
@@ -108,9 +111,29 @@ NODE_ENV=development
 **Important:**
 *   Ensure the `MONGO_URI` is correct for your database.
 *   If you change `JWT_SECRET`, ensure it's a strong, unique string.
-*   Ensure the `.env` file is added to your `.gitignore` file to prevent committing sensitive information (though it's good practice to never commit `.env` files with actual secrets).
+*   Ensure the `.env` file is added to your `.gitignore` file to prevent committing sensitive information.
 
-### 4. Running the Application
+### 4. Configure Brandfetch API Key (Optional, for Company Logos)
+
+The homepage's "Companies Hiring" section can dynamically fetch company logos using the Brandfetch API.
+To enable this:
+1.  Obtain an API key from [Brandfetch](https://brandfetch.com/). The free tier is usually sufficient for development.
+2.  Open the file `public/js/main.js`.
+3.  Locate the `initializeLogoCarousel` function. Inside it, you'll find a line like:
+    `const apiKey = window.BRANDFETCH_API_KEY || "BRANDFETCH_API_KEY_PLACEHOLDER";`
+4.  **For local testing, you have two options:**
+    *   **Option A (Recommended for quick test):** Temporarily replace `"BRANDFETCH_API_KEY_PLACEHOLDER"` with your actual Brandfetch API key string. **Remember to remove or revert this before committing your code.**
+        ```javascript
+        // Example:
+        const apiKey = window.BRANDFETCH_API_KEY || "YOUR_ACTUAL_BRANDFETCH_KEY_HERE";
+        ```
+    *   **Option B (Slightly cleaner for local dev):** Before the page loads `main.js` (e.g., in your browser's developer console, or in a script tag before `main.js` in `index.html` for testing only), set the global variable:
+        ```javascript
+        window.BRANDFETCH_API_KEY = "YOUR_ACTUAL_BRANDFETCH_KEY_HERE";
+        ```
+If the API key is not provided or is invalid, the section will show placeholder images or a message. **Never commit your API key directly into the repository.** For production, this API call should be proxied through your backend.
+
+### 5. Running the Application
 
 *   **Development Mode (with Nodemon for auto-restarts):**
     ```bash
@@ -238,4 +261,5 @@ Admin-only endpoints exist for CRUD operations on all resources.
 *   Add more advanced search and filtering options on the frontend.
 *   Automated database seeding script.
 *   Unit and integration tests.
+*   **Security:** For production, proxy Brandfetch API calls through the backend to protect the API key.
 ```
