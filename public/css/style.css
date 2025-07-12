@@ -1,13 +1,22 @@
 /* --- Global Styles & Variables --- */
 :root {
-    --primary-color: #004AAD; /* Navy */
-    --accent-color: #F9A826;  /* Amber */
-    --text-color: #6D7D8B;    /* Slate Gray */
-    --heading-color: #333333;
-    --background-color: #FAFAFA;
+    /* New Color Palette */
+    --primary-color: #052b55;       /* Blue Whale */
+    --accent-color: #dfac2f;        /* Golden Grass */
+    --text-color: #58687c;          /* Shuttle Gray - for general text */
+    --heading-color: #040b08;       /* Black Bean - for main headings */
+    --background-color: #FAFAFA;    /* Keeping light background */
     --white-color: #FFFFFF;
-    --light-gray-color: #f0f0f0;
-    --border-color: #e0e0e0;
+    --light-gray-color: #f0f0f0;    /* For subtle backgrounds or borders */
+    --border-color: #d8dde2;        /* Adjusted border color */
+
+    /* Additional colors from the palette for specific uses if needed */
+    --goblin-green: #317732;
+    --hemlock-green: #5f5f3d;
+    --te-papa-green: #24493b;
+    --tiber-dark-green: #042c28; /* A very dark green, could be alternative heading or bg */
+    --pesto-brown: #846c2e;
+
 
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Inter', sans-serif;
@@ -41,7 +50,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 { font-size: 2.8em; }
-h2 { font-size: 2.2em; }
+h2 { font-size: 2.2em; } /* Default h2 size */
 h3 { font-size: 1.8em; }
 h4 { font-size: 1.4em; }
 
@@ -95,10 +104,16 @@ header .container {
 }
 
 header .logo {
-    font-family: var(--font-primary);
+    /* font-family: var(--font-primary);
     font-size: 1.8em;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--primary-color); */ /* Text logo styles removed/commented */
+    display: flex; /* Align image nicely if needed */
+    align-items: center;
+}
+header .logo img {
+    max-height: 50px; /* Adjust as needed, considering header height */
+    width: auto; /* Maintain aspect ratio */
 }
 
 header nav ul {
@@ -120,8 +135,8 @@ header nav ul li a:hover {
 }
 
 /* --- Footer --- */
-.site-footer { /* Changed from just 'footer' to be more specific */
-    background-color: var(--heading-color); /* Dark background for footer */
+.site-footer {
+    background-color: var(--heading-color);
     color: var(--light-gray-color);
     padding: 50px 0 30px 0;
     margin-top: 50px;
@@ -137,30 +152,31 @@ header nav ul li a:hover {
 
 .footer-column {
     flex: 1;
-    min-width: 250px; /* Ensure columns don't get too squished */
+    min-width: 250px;
 }
 
 .footer-column h4 {
     color: var(--white-color);
     font-size: 1.2em;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increased margin */
     position: relative;
     padding-bottom: 10px;
 }
-.footer-column h4::after { /* Underline effect for footer headings */
+.footer-column h4::after {
     content: '';
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 40px;
-    height: 2px;
+    width: 50px; /* Slightly longer underline */
+    height: 3px; /* Thicker underline */
     background-color: var(--accent-color);
 }
 
 .footer-column p {
-    font-size: 0.9em;
+    font-size: 0.95em; /* Slightly larger p text in footer */
     line-height: 1.7;
     margin-bottom: 10px;
+    color: #bdc3c7; /* Lighter gray for p text */
 }
 
 .footer-column ul {
@@ -168,25 +184,29 @@ header nav ul li a:hover {
     padding: 0;
 }
 .footer-column ul li a {
-    color: var(--light-gray-color);
+    color: #bdc3c7; /* Lighter gray for links */
     font-size: 0.95em;
-    padding: 5px 0;
-    display: inline-block; /* For padding to work nicely */
+    padding: 6px 0; /* Slightly more padding */
+    display: inline-block;
     transition: color 0.3s ease, padding-left 0.3s ease;
 }
 .footer-column ul li a:hover {
     color: var(--accent-color);
-    padding-left: 5px; /* Slight indent on hover */
+    padding-left: 8px;
 }
 
+.social-icons {
+    margin-top: 15px;
+}
 .social-icons a {
     color: var(--light-gray-color);
-    font-size: 1.3em; /* Make icons a bit larger */
-    margin-right: 15px;
-    transition: color 0.3s ease;
+    font-size: 1.5em;
+    margin-right: 18px;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 .social-icons a:hover {
     color: var(--accent-color);
+    transform: scale(1.1);
 }
 .social-icons a:last-child {
     margin-right: 0;
@@ -194,12 +214,27 @@ header nav ul li a:hover {
 
 .footer-bottom {
     text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #4a4a4a; /* Slightly lighter border within footer */
+    padding-top: 30px; /* Increased padding */
+    border-top: 1px solid #4a4a4a;
     font-size: 0.9em;
+    color: #95a5a6; /* Muted color for copyright */
 }
 .footer-bottom p {
     margin: 0;
+    line-height: 1.5; /* Ensure consistent line height */
+}
+.admin-login-footer-link {
+    font-size: 0.85em;
+    color: var(--light-gray-color); /* Or a subtle color that fits the footer */
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 5px; /* Space it from the copyright */
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+.admin-login-footer-link:hover {
+    color: var(--accent-color); /* Use accent color on hover for visibility */
+    opacity: 1;
 }
 
 
@@ -234,8 +269,8 @@ header nav ul li a:hover {
     color: var(--white-color);
     margin-bottom: 20px;
 }
-.blog-hero-slider { /* Specific for blog page if needed */
-    background-color: var(--primary-color); /* Match homepage hero */
+.blog-hero-slider {
+    background-color: var(--primary-color);
     padding: 40px 0;
 }
 .blog-hero-slider h2 {
@@ -248,22 +283,22 @@ header nav ul li a:hover {
 .hero-slider {
     position: relative;
     overflow: hidden;
-    max-width: 900px; /* Adjust as needed */
+    max-width: 900px;
     margin: 0 auto;
     border-radius: var(--border-radius);
 }
 
 .hero-slide {
-    display: none; /* Hidden by default */
+    display: none;
     min-width: 100%;
     transition: transform 0.5s ease-in-out;
 }
 .hero-slide.active {
-    display: block; /* Show active slide */
+    display: block;
 }
 .hero-slide img {
     width: 100%;
-    max-height: 450px; /* Control slide image height */
+    max-height: 450px;
     object-fit: cover;
     border-radius: var(--border-radius);
 }
@@ -331,12 +366,13 @@ header nav ul li a:hover {
 
 /* --- Latest Posts Preview (Homepage) --- */
 .latest-posts-preview {
-    padding: 50px 0;
+    /*padding: 50px 0; Now part of .homepage-section styling */
 }
-.latest-posts-preview h2 {
+/* .latest-posts-preview h2 {
     text-align: center;
     margin-bottom: 40px;
-}
+    Now part of .homepage-section h2 styling
+} */
 .posts-grid-preview {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -352,15 +388,15 @@ header nav ul li a:hover {
     gap: 30px;
 }
 .main-content {
-    flex: 3; /* Takes 3/4 of the space */
+    flex: 3;
 }
 .sidebar {
-    flex: 1; /* Takes 1/4 of the space */
+    flex: 1;
     background-color: var(--white-color);
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    height: fit-content; /* So it doesn't stretch full page height if content is short */
+    height: fit-content;
 }
 
 .categories-section-tabs {
@@ -389,7 +425,7 @@ header nav ul li a:hover {
     color: var(--white-color);
 }
 
-.main-content h2 { /* Section titles like "All Articles", "More Reads" */
+.main-content h2 {
     margin-top: 30px;
     margin-bottom: 20px;
     border-bottom: 2px solid var(--accent-color);
@@ -414,12 +450,12 @@ header nav ul li a:hover {
 }
 .post-card-image img {
     width: 100%;
-    height: 200px; /* Fixed height for consistency */
+    height: 200px;
     object-fit: cover;
 }
 .post-card-content {
     padding: 20px;
-    flex-grow: 1; /* Allows content to fill space, pushing actions to bottom */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
@@ -440,7 +476,7 @@ header nav ul li a:hover {
     font-size: 0.95em;
     color: var(--text-color);
     margin-bottom: 15px;
-    flex-grow: 1; /* Allows excerpt to take available space */
+    flex-grow: 1;
 }
 .post-card-date {
     font-size: 0.8em;
@@ -460,7 +496,7 @@ header nav ul li a:hover {
 /* Posts Grid (Blog Page) */
 .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
     margin-bottom: 40px;
 }
@@ -481,16 +517,16 @@ header nav ul li a:hover {
     box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 .post-list-item-thumbnail img {
-    width: 150px; /* Fixed width for thumbnail */
+    width: 150px;
     height: 100px;
     object-fit: cover;
     border-radius: var(--border-radius);
 }
-.post-list-item-content .post-card-title { /* Re-use card title style */
+.post-list-item-content .post-card-title {
     font-size: 1.3em;
     margin-bottom: 5px;
 }
-.post-list-item-content .post-card-excerpt { /* Re-use card excerpt style */
+.post-list-item-content .post-card-excerpt {
     font-size: 0.9em;
     margin-bottom: 10px;
 }
@@ -543,7 +579,7 @@ header nav ul li a:hover {
 .sidebar .widget:last-child {
     margin-bottom: 0;
 }
-.sidebar .widget h3 { /* Widget Title */
+.sidebar .widget h3 {
     font-size: 1.3em;
     color: var(--primary-color);
     margin-bottom: 15px;
@@ -573,23 +609,23 @@ header nav ul li a:hover {
 
 /* --- Single Post Page --- */
 .single-post-content .post-hero {
-    height: 400px; /* Adjust as needed */
+    height: 400px;
     background-size: cover;
     background-position: center center;
     color: var(--white-color);
     display: flex;
-    align-items: flex-end; /* Align content to bottom */
+    align-items: flex-end;
     padding-bottom: 40px;
     position: relative;
 }
-.single-post-content .post-hero::before { /* Overlay for readability */
+.single-post-content .post-hero::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%);
 }
 .single-post-content .post-hero .container {
-    position: relative; /* To be above overlay */
+    position: relative;
     z-index: 2;
 }
 .single-post-content .post-hero #post-title {
@@ -622,7 +658,7 @@ header nav ul li a:hover {
 .post-body-main {
     flex: 3;
 }
-.post-content { /* Actual article content area */
+.post-content {
     font-size: 1.1em;
     line-height: 1.7;
 }
@@ -660,111 +696,172 @@ header nav ul li a:hover {
 
 
 /* --- Homepage Specific Sections --- */
-.courses-pursue, .companies-hiring, .trending-jobs {
-    padding: 50px 0;
+.courses-pursue, .companies-hiring, .trending-jobs, .latest-posts-preview { /* Added .latest-posts-preview here */
+    padding: 60px 0; /* Increased padding */
+    border-bottom: 1px solid #e9edf0; /* Lighter separator */
 }
-.courses-pursue h2, .companies-hiring h2, .trending-jobs h2, .latest-posts-preview h2 {
+.courses-pursue:last-of-type,
+.companies-hiring:last-of-type,
+.trending-jobs:last-of-type,
+.latest-posts-preview:last-of-type { /* Ensure last section has no bottom border */
+    border-bottom: none;
+}
+
+/* Styling for section titles (h2) within these homepage sections */
+.courses-pursue h2,
+.companies-hiring h2,
+.trending-jobs h2,
+.latest-posts-preview h2 { /* Applied consistent styling to all section titles */
     text-align: center;
-    font-size: 2em;
-    margin-bottom: 40px;
+    font-size: 2.4em; /* Unified and slightly larger */
+    font-weight: 600;
+    margin-bottom: 50px;
     color: var(--primary-color);
+    position: relative;
+    padding-bottom: 20px; /* Increased padding for underline */
 }
+.courses-pursue h2::after,
+.companies-hiring h2::after,
+.trending-jobs h2::after,
+.latest-posts-preview h2::after { /* Underline effect for section titles */
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 100px; /* Wider underline */
+    height: 4px;  /* Thicker underline */
+    background-color: var(--accent-color);
+    border-radius: 2px; /* Rounded underline */
+}
+
 
 /* Courses Section */
 .courses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); /* Adjusted minmax */
+    gap: 35px; /* Slightly increased gap */
 }
 .course-card {
     background-color: var(--white-color);
-    padding: 25px;
+    padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
-    box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 18px rgba(0, 74, 173, 0.09);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-top-color 0.35s ease;
+    border-top: 5px solid transparent;
+    position: relative; /* For pseudo-elements if needed */
 }
 .course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transform: translateY(-10px);
+    box-shadow: 0 12px 28px rgba(0, 74, 173, 0.18);
+    border-top-color: var(--accent-color);
 }
 .course-card .course-icon {
-    font-size: 2.5em; /* Placeholder, replace with actual icons */
+    font-size: 3.2em;
     color: var(--accent-color);
-    margin-bottom: 15px;
-    display: block; /* Or inline-block */
-    /* Example using Font Awesome: Ensure FA is linked in HTML
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f19d"; */
+    margin-bottom: 25px;
+    display: inline-flex; /* Changed to inline-flex for better alignment if needed */
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    line-height: 80px; /* For vertical centering of icon if it's a single char/font */
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white-color); /* Icon color white on primary bg */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.course-card:hover .course-icon {
+    background-color: var(--accent-color);
+    color: var(--white-color);
+    transform: rotateY(15deg) scale(1.05); /* Slight 3D effect on hover */
 }
 .course-card h3 {
-    font-size: 1.4em;
+    font-size: 1.6em;
     color: var(--heading-color);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .course-card p {
-    font-size: 0.95em;
+    font-size: 1em; /* Slightly increased size */
     color: var(--text-color);
+    line-height: 1.65;
     margin-bottom: 0;
 }
 
 /* Companies Hiring Section - Logo Carousel */
 .logo-carousel-container {
-    overflow: hidden; /* Essential for carousel effect */
-    position: relative; /* For potential prev/next buttons if added */
-    padding: 20px 0;
-    background: var(--white-color);
+    overflow: hidden;
+    position: relative;
+    padding: 30px 0;
+    background: var(--white-color); /* Give it a subtle background */
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Subtle shadow for container */
 }
 .logo-carousel {
-    display: flex; /* Enables horizontal layout */
-    /* Animation will be applied by JS or CSS animation */
-    /* For JS animation, JS will update transform: translateX() */
-    /* For CSS animation: */
-    /* animation: scrollLogos 30s linear infinite; */
-    width: max-content; /* Allow it to be wider than container for scrolling */
+    display: flex;
+    width: max-content;
+    align-items: center;
 }
 .logo-carousel img {
-    height: 60px; /* Adjust as needed */
-    width: auto; /* Maintain aspect ratio */
-    margin: 0 25px; /* Spacing between logos */
-    filter: grayscale(100%); /* Optional: make logos grayscale */
-    transition: filter 0.3s ease;
+    height: 50px; /* Unified height */
+    max-width: 130px; /* Max width to prevent overly wide logos */
+    width: auto;
+    margin: 0 35px;
+    filter: grayscale(90%) opacity(0.65);
+    transition: filter 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+    vertical-align: middle;
 }
 .logo-carousel img:hover {
-    filter: grayscale(0%); /* Color on hover */
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.15);
 }
-
-/* Basic CSS animation for logo carousel (alternative to JS) */
-/* @keyframes scrollLogos {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Adjust -50% if you duplicate logos for seamless loop */
-/* } */
 
 
 /* Trending Jobs Section */
 .jobs-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Slightly wider items */
+    gap: 30px;
 }
 .job-item {
     background-color: var(--white-color);
-    padding: 20px;
+    padding: 25px 30px; /* More horizontal padding */
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    border-left: 5px solid var(--accent-color); /* Accent border */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    border-left: 6px solid var(--accent-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden; /* For potential pseudo elements */
+}
+.job-item:hover {
+    transform: scale(1.03); /* Grow effect */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 .job-item h3 {
-    font-size: 1.3em;
-    color: var(--heading-color);
-    margin-bottom: 8px;
+    font-size: 1.45em;
+    color: var(--primary-color); /* Primary color for job title */
+    margin-bottom: 12px;
+    display: flex; /* For icon alignment */
+    align-items: center;
 }
-.job-item p {
-    font-size: 1em;
-    color: var(--primary-color);
-    font-weight: 500;
+.job-item h3::before { /* Using Font Awesome for job icon */
+    content: "\f0b1"; /* Briefcase icon */
+    font-family: "Font Awesome 6 Free"; /* Ensure this matches the FA version */
+    font-weight: 900; /* Solid icon */
+    margin-right: 12px;
+    color: var(--accent-color);
+    font-size: 0.9em; /* Relative to h3 */
+}
+.job-item p { /* Package info */
+    font-size: 1.1em;
+    color: var(--text-color); /* More subtle color for package */
+    font-weight: 500; /* Slightly less bold */
     margin-bottom: 0;
+    background-color: #f0f4f8; /* Light background for package */
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block; /* So background only covers text */
 }
 
 
@@ -863,13 +960,21 @@ header nav ul li a:hover {
     .hero h1 { font-size: 2.5em; }
     .hero .tagline { font-size: 1.1em; }
     .single-post-content .post-hero #post-title { font-size: 2.2em; }
+
+    .courses-pursue h2, .companies-hiring h2, .trending-jobs h2, .latest-posts-preview h2 {
+        font-size: 2em;
+    }
+    .course-card .course-icon { font-size: 2.8em; width: 70px; height: 70px; line-height: 70px;}
+    .course-card h3 { font-size: 1.4em; }
+    .job-item h3 { font-size: 1.25em; }
+    .job-item p { font-size: 1em; }
 }
 
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
         align-items: center;
-        padding-bottom: 10px; /* Adjust header height if it becomes too tall */
+        padding-bottom: 10px;
     }
     header { height: auto; }
     header nav { margin-top: 10px; }
@@ -887,14 +992,14 @@ header nav ul li a:hover {
     .hero-slide-content p { font-size: 0.85em; }
 
     .posts-grid-preview, .posts-grid {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
+        grid-template-columns: 1fr;
     }
     .post-list-item {
         flex-direction: column;
     }
     .post-list-item-thumbnail img {
         width: 100%;
-        height: 180px; /* Adjust for full width */
+        height: 180px;
     }
 
     .single-post-content .post-hero { height: 300px; }
@@ -902,12 +1007,16 @@ header nav ul li a:hover {
     .single-post-content .post-hero .post-subtitle { font-size: 1.1em; }
 
     .contact-form { padding: 20px; }
+
+    .footer-columns { flex-direction: column; text-align: center; }
+    .footer-column h4::after { left: 50%; transform: translateX(-50%); } /* Center underline on mobile */
+    .social-icons { text-align: center; }
 }
 
 @media (max-width: 480px) {
     body { font-size: 15px; }
     h1 { font-size: 1.8em; }
-    h2 { font-size: 1.6em; }
+    h2 { font-size: 1.6em; } /* Default h2 for mobile */
     .hero h1 { font-size: 1.8em; }
     .cta-button { padding: 12px 25px; font-size: 1em; }
 
@@ -922,6 +1031,25 @@ header nav ul li a:hover {
     .single-post-content .post-hero #post-title { font-size: 1.5em; }
 
     .pagination button, .pagination a { padding: 8px 12px; font-size: 0.9em; }
+
+    .courses-pursue h2, .companies-hiring h2, .trending-jobs h2, .latest-posts-preview h2 {
+        font-size: 1.8em; /* Smaller section titles for very small screens */
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+    }
+    .courses-pursue h2::after, .companies-hiring h2::after, .trending-jobs h2::after, .latest-posts-preview h2::after {
+        width: 60px;
+        height: 3px;
+    }
+    .course-card .course-icon { font-size: 2.5em; width: 60px; height: 60px; line-height: 60px;}
+    .course-card h3 { font-size: 1.3em; }
+    .course-card p { font-size: 0.9em; }
+
+    .logo-carousel img { height: 40px; margin: 0 20px; }
+
+    .job-item { padding: 20px; }
+    .job-item h3 { font-size: 1.2em; }
+    .job-item p { font-size: 0.95em; }
 }
 
 /* Image lazy loading placeholder */

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Admin</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar-admin">
+            <div class="sidebar-header"><h3>Admin Menu</h3></div>
+            <nav class="sidebar-nav">
+                 <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="manage-posts.html">Manage Posts</a></li>
+                    <li><a href="manage-categories.html">Manage Categories</a></li>
+                    <li><a href="manage-widgets.html">Manage Sidebar Widgets</a></li>
+                    <li><a href="manage-ads.html">Manage Ads</a></li>
+                    <li><a href="site-settings.html">Site Settings</a></li>
+                    <li><a href="manage-users.html" class="active">Manage Users</a></li>
+                    <li><a href="#" id="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Manage Users</h1>
+                <button id="add-new-user-btn" class="btn btn-primary">Add New User</button>
+            </header>
+
+            <section id="users-list-section">
+                <h2>Existing Users</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Users will be loaded here by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Optional: Pagination for users if list becomes very long -->
+            </section>
+
+            <section id="user-form-section" class="form-section" style="display:none;">
+                <h2 id="user-form-title">Add New User</h2>
+                <form id="user-form">
+                    <input type="hidden" id="user-id" name="userId">
+                    <div class="form-group">
+                        <label for="user-username">Username:</label>
+                        <input type="text" id="user-username" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email">Email:</label>
+                        <input type="email" id="user-email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group" id="password-group">
+                        <label for="user-password">Password:</label>
+                        <input type="password" id="user-password" name="password" class="form-control">
+                        <small id="password-help">Required for new users. Leave blank if not changing for an existing user.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-role">Role:</label>
+                        <select id="user-role" name="role" class="form-control" required>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                            <!-- More roles can be added here if implemented (e.g., editor, author) -->
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save User</button>
+                        <button type="button" id="cancel-user-edit-btn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                     <p id="user-form-error" class="error-message" style="display:none;"></p>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/manage-users.js"></script> <!-- We will create this JS file next -->
+</body>
+</html>
