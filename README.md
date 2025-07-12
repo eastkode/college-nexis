@@ -207,7 +207,13 @@ After setting up your first admin user (see next section if you haven't), you ca
     *   Use "Manage Sidebar Widgets" to create and arrange widgets.
 
 5.  **Configure Site Settings:**
-    *   Go to "Site Settings" to set your Google Analytics ID, Webmaster meta tags, global SEO defaults, footer text, etc.
+    *   Go to "Site Settings" in the Admin Panel.
+    *   Here you can configure:
+        *   General Settings: Site Name, Base URL, Favicon URL.
+        *   SEO & Analytics: Global Meta Title/Description, Google Analytics ID, Webmaster Meta Tags.
+        *   Footer: Custom Footer Text.
+        *   **Email & SMTP Settings:** SMTP Host, Port, User, Password, and "From" Email for enabling email functionalities (e.g., future password resets).
+        *   **Advertising Settings:** Google AdSense Publisher ID.
 
 ## Admin Panel Access & First User Setup
 
@@ -233,6 +239,7 @@ After setting up your first admin user (see next section if you haven't), you ca
                 "role": "admin"
             }
             ```
+            (If you wish to create a specific initial user, e.g., `username: admin` with password `Admin123`, you can use those values here during this setup. Remember to choose a strong password for any production environment.)
     4.  **IMPORTANT: Revert `server/routes/auth.js` Changes:**
         *   Restore the original secure registration line and remove the temporary one. Save the file (server should restart if using nodemon).
     5.  You can now log in at `/admin/` with the credentials you registered.

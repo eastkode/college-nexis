@@ -19,6 +19,7 @@
                     <li><a href="manage-widgets.html">Manage Sidebar Widgets</a></li>
                     <li><a href="manage-ads.html">Manage Ads</a></li>
                     <li><a href="site-settings.html" class="active">Site Settings</a></li>
+                    <li><a href="manage-users.html">Manage Users</a></li>
                     <li><a href="#" id="logout-button">Logout</a></li>
                 </ul>
             </nav>
@@ -78,6 +79,41 @@
                             <label for="setting-footerText">Custom Footer Text:</label>
                             <textarea id="setting-footerText" name="footerText" rows="3" class="form-control" data-setting-key="footerText"></textarea>
                             <small>Appears in the site footer. Basic HTML allowed. Default: &copy; YEAR College Nexis. All rights reserved.</small>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Email & SMTP Settings</h3>
+                        <small class="mb-2" style="display:block;">Configure your SMTP server to enable email features like password resets or notifications. These settings are stored securely.</small>
+                        <div class="form-group">
+                            <label for="setting-smtpHost">SMTP Host:</label>
+                            <input type="text" id="setting-smtpHost" name="smtpHost" class="form-control" data-setting-key="smtpHost" placeholder="e.g., smtp.gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-smtpPort">SMTP Port:</label>
+                            <input type="number" id="setting-smtpPort" name="smtpPort" class="form-control" data-setting-key="smtpPort" placeholder="e.g., 587">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-smtpUser">SMTP User:</label>
+                            <input type="text" id="setting-smtpUser" name="smtpUser" class="form-control" data-setting-key="smtpUser" placeholder="e.g., your-email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-smtpPass">SMTP Password:</label>
+                            <input type="password" id="setting-smtpPass" name="smtpPass" class="form-control" data-setting-key="smtpPass" placeholder="Enter password or app-specific password">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-smtpFrom">"From" Email Address:</label>
+                            <input type="email" id="setting-smtpFrom" name="smtpFrom" class="form-control" data-setting-key="smtpFrom" placeholder="e.g., no-reply@yourdomain.com">
+                            <small>The email address that will appear as the sender.</small>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Advertising Settings</h3>
+                        <div class="form-group">
+                            <label for="setting-adsenseId">Google AdSense Publisher ID:</label>
+                            <input type="text" id="setting-adsenseId" name="adsenseId" class="form-control" data-setting-key="adsenseId" placeholder="pub-XXXXXXXXXXXXXXXX">
+                            <small>Your Google AdSense Publisher ID. This can be used to integrate ads automatically. The Ad Manager under "Manage Ads" can be used for specific ad unit codes.</small>
                         </div>
                     </div>
 

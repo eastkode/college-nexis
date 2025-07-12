@@ -221,6 +221,20 @@ header nav ul li a:hover {
 }
 .footer-bottom p {
     margin: 0;
+    line-height: 1.5; /* Ensure consistent line height */
+}
+.admin-login-footer-link {
+    font-size: 0.85em;
+    color: var(--light-gray-color); /* Or a subtle color that fits the footer */
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 5px; /* Space it from the copyright */
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+.admin-login-footer-link:hover {
+    color: var(--accent-color); /* Use accent color on hover for visibility */
+    opacity: 1;
 }
 
 
