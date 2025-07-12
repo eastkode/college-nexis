@@ -2,7 +2,8 @@
 :root {
     /* New Color Palette */
     --primary-color: #052b55;       /* Blue Whale */
-    --accent-color: #dfac2f;        /* Golden Grass */
+    --accent-color: #24493b;        /* Te Papa Green - NEW ACCENT */
+    --secondary-accent-color: #dfac2f; /* Golden Grass - as a secondary option */
     --text-color: #58687c;          /* Shuttle Gray - for general text */
     --heading-color: #040b08;       /* Black Bean - for main headings */
     --background-color: #FAFAFA;    /* Keeping light background */
@@ -240,23 +241,38 @@ header nav ul li a:hover {
 
 /* --- Hero Section (Homepage & Blog) --- */
 .hero {
-    background-color: var(--primary-color);
+    background-color: #24493b; /* Set hero background to Te Papa Green as requested */
     color: var(--white-color);
     padding: 60px 0;
     text-align: center;
+    overflow: hidden; /* Hide elements before they animate in */
 }
+
+@keyframes fadeIn-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .hero h1 {
     color: var(--white-color);
     font-size: 3.2em;
     margin-bottom: 0.5em;
+    animation: fadeIn-up 0.8s ease-out forwards;
 }
 .hero .tagline {
     font-size: 1.3em;
     margin-bottom: 2em;
-    opacity: 0.9;
+    opacity: 0; /* Start hidden, animation will make it visible */
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    animation: fadeIn-up 0.8s ease-out 0.3s forwards; /* 0.3s delay */
 }
 
 .hero-slider-container {
@@ -349,8 +365,8 @@ header nav ul li a:hover {
 
 .cta-button {
     display: inline-block;
-    background-color: var(--accent-color);
-    color: var(--white-color);
+    background-color: var(--secondary-accent-color); /* Using Golden Grass for main CTAs */
+    color: var(--heading-color); /* Dark text on golden background */
     padding: 15px 30px;
     font-size: 1.1em;
     font-weight: 600;
@@ -759,7 +775,7 @@ header nav ul li a:hover {
 }
 .course-card .course-icon {
     font-size: 3.2em;
-    color: var(--accent-color);
+    color: var(--secondary-accent-color); /* Changed to Golden Grass for default state */
     margin-bottom: 25px;
     display: inline-flex; /* Changed to inline-flex for better alignment if needed */
     align-items: center;
@@ -821,47 +837,52 @@ header nav ul li a:hover {
 /* Trending Jobs Section */
 .jobs-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Slightly wider items */
+    /* Use auto-fit for responsiveness. On large screens this will be 3-wide. */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 .job-item {
     background-color: var(--white-color);
-    padding: 25px 30px; /* More horizontal padding */
+    padding: 25px;
     border-radius: var(--border-radius);
     box-shadow: 0 5px 15px rgba(0,0,0,0.07);
-    border-left: 6px solid var(--accent-color);
+    border-left: 5px solid var(--accent-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden; /* For potential pseudo elements */
+    display: flex;
+    flex-direction: column; /* Align content vertically */
+    justify-content: space-between; /* Push package to bottom */
 }
 .job-item:hover {
-    transform: scale(1.03); /* Grow effect */
+    transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 .job-item h3 {
-    font-size: 1.45em;
-    color: var(--primary-color); /* Primary color for job title */
-    margin-bottom: 12px;
-    display: flex; /* For icon alignment */
+    font-size: 1.3em;
+    color: var(--primary-color);
+    margin-bottom: 15px; /* More space between title and package */
+    display: flex;
     align-items: center;
+    line-height: 1.3;
 }
-.job-item h3::before { /* Using Font Awesome for job icon */
-    content: "\f0b1"; /* Briefcase icon */
-    font-family: "Font Awesome 6 Free"; /* Ensure this matches the FA version */
-    font-weight: 900; /* Solid icon */
+.job-item h3::before {
+    content: "\f0b1";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
     margin-right: 12px;
     color: var(--accent-color);
-    font-size: 0.9em; /* Relative to h3 */
+    font-size: 0.9em;
 }
 .job-item p { /* Package info */
-    font-size: 1.1em;
-    color: var(--text-color); /* More subtle color for package */
-    font-weight: 500; /* Slightly less bold */
-    margin-bottom: 0;
-    background-color: #f0f4f8; /* Light background for package */
-    padding: 5px 10px;
-    border-radius: 4px;
-    display: inline-block; /* So background only covers text */
+    font-size: 1.05em;
+    color: var(--heading-color);
+    font-weight: 600;
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: rgba(223, 172, 47, 0.15); /* Light Golden Grass background */
+    color: var(--pesto-brown); /* Using a darker brown from palette for text */
+    display: inline-block;
+    align-self: flex-start; /* Align to the left */
 }
 
 
