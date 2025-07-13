@@ -6,12 +6,11 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 
 *   **Dynamic Frontend:** Built with HTML5, CSS3, and vanilla JavaScript. Content is dynamically fetched from the backend API.
 *   **Robust Backend:** Node.js with Express.js framework and MongoDB (via Atlas) for data storage.
-*   **Admin Panel:** Secure and user-friendly interface for managing posts, categories, sidebar widgets, advertisements, and site-wide settings.
+*   **Admin Panel:** Secure and user-friendly interface for managing posts, categories, users, sidebar widgets, advertisements, and site-wide settings.
 *   **SEO Optimized:** Auto-generated slugs, meta tags, dynamic `sitemap.xml` and `robots.txt`, Schema.org markup.
-*   **Customizable:** Manage sidebar content, ad slots, and global site settings like Google Analytics ID, footer text, etc.
+*   **Customizable:** Manage sidebar content, ad slots, and global site settings like Google Analytics, SMTP, and AdSense.
 *   **Responsive Design:** Ensures a good viewing experience across devices.
-*   **No Bloated Frameworks:** Frontend and Admin Panel use vanilla JS for speed and simplicity.
-*   **Enhanced Homepage:** Includes sections for "Courses to Pursue" (with Font Awesome icons), "Companies Hiring (Logo Carousel with Brandfetch API integration)," and "Trending Jobs."
+*   **Enhanced Homepage:** Includes an "Industry News" hero slider, sections for "Courses to Pursue" (with Font Awesome icons), "Companies Hiring (Logo Carousel with Brandfetch API integration)," and "Trending Jobs."
 
 ## Tech Stack
 
@@ -49,7 +48,6 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
     *   Give your new service group a name.
 4.  **Create a Secret Group:** Before deploying, you must provide your secret environment variables.
     *   Navigate to the **Environment** tab for the `college-nexis-api` service that Render has planned for you.
-    *   Under "Secret Files", you can create a group. Or, more simply, just add individual "Environment Variables".
     *   Render will prompt you to create the `college-nexis-secrets` group defined in the YAML. Click to create it.
     *   Add the following secrets to the group:
         *   `MONGO_URI`: Your full MongoDB Atlas connection string.
@@ -116,8 +114,7 @@ npm install
     NODE_ENV=development
     ```
 3.  **Configure Brandfetch API Key (Optional):**
-    *   To enable dynamic company logos, open `public/js/main.js` and locate the `initializeLogoCarousel` function.
-    *   Temporarily replace `"BRANDFETCH_API_KEY_PLACEHOLDER"` with your actual Brandfetch API key string. **Do not commit this key.**
+    *   The `public/js/main.js` file is hardcoded with the key you provided for demonstration. For production, it's recommended to manage this more securely (e.g., via a backend proxy).
 
 ### 3. Running the Application
 
@@ -125,7 +122,7 @@ npm install
     ```bash
     npm run dev
     ```
-    The backend API will run on `http://localhost:3000`. The frontend can be accessed by opening the `public/index.html` file in your browser, or by navigating to `http://localhost:3000` (as the server also serves the public directory).
+    The backend API will run on `http://localhost:3000`. The frontend can be accessed by opening the `public/index.html` file in your browser, or by navigating to `http://localhost:3000`.
 
 *   **Production Mode:**
     ```bash
@@ -153,8 +150,8 @@ The first admin user must be created manually for security.
 
 ### Seeding Example Data
 Once logged into the admin panel, you can:
-*   **Add Categories:** Go to "Manage Categories" to create categories like `Tech Careers`, `Higher Education Tips`, etc.
-*   **Add Posts:** Go to "Manage Posts" to create articles. Use external URLs for featured images.
+*   **Add Categories:** Go to "Manage Categories". To populate the homepage news slider, create a category with the exact name **`Industry News`**. Add other categories as needed (e.g., `Tech Careers`, `Higher Education Tips`).
+*   **Add Posts:** Go to "Manage Posts" and add articles to your created categories. The latest posts from the "Industry News" category will appear in the homepage hero slider.
 *   **Configure Site Settings:** Go to "Site Settings" to configure Google Analytics, SMTP, AdSense, etc.
 
 ---
