@@ -186,7 +186,8 @@ async function loadHeroSlider() {
     if (!heroSliderElement) return; // Slider not on this page
 
     heroSliderElement.innerHTML = '<div class="loading-spinner">Loading slides...</div>';
-    const result = await fetchData('/posts/recent?limit=5'); // Fetch 5 recent posts
+    // Fetch 5 recent posts specifically from the 'industry-news' category
+    const result = await fetchData('/posts/recent?limit=5&category_slug=industry-news');
 
     if (result && result.success && result.data.length > 0) {
         heroSliderElement.innerHTML = ''; // Clear loading
@@ -539,22 +540,10 @@ async function initializeLogoCarousel() {
     const carousel = document.getElementById('logo-carousel');
     if (!carousel) return;
 
-    // ***** IMPORTANT API KEY INSTRUCTION *****
-    // For your local testing, you can set this in your browser's developer console:
-    //   window.BRANDFETCH_API_KEY = "1id3jIHfKCPaRF59DUN";
-    // OR, for a quick test, replace BRANDFETCH_API_KEY_PLACEHOLDER below with your key,
-    // BUT REMEMBER TO REMOVE IT OR CHANGE IT BACK BEFORE COMMITTING/PUSHING CODE.
-    const apiKey = window.BRANDFETCH_API_KEY || "BRANDFETCH_API_KEY_PLACEHOLDER"; // Use placeholder if not set globally
-
-    if (apiKey === "BRANDFETCH_API_KEY_PLACEHOLDER") {
-        console.warn("Brandfetch API key not set. Using static placeholder images for logo carousel. Set window.BRANDFETCH_API_KEY to your key for dynamic logos.");
-        // If API key is not set, the static placeholders in HTML will be used.
-        // We still need to start their animation if they exist.
-        if (carousel.children.length > 0) {
-            startLogoCarouselAnimation(carousel, Array.from(carousel.children).length);
-        }
-        return;
-    }
+    // Using the API key you provided directly.
+    // For production, it's highly recommended to move this to a backend proxy endpoint
+    // or use a more secure method of key management.
+    const apiKey = "1id3jIHfKCPaRF59DUN";
 
     const companyNames = ["Google", "Microsoft", "Amazon", "Infosys", "Wipro", "Accenture"];
     carousel.innerHTML = '<div class="loading-spinner" style="width:100%; text-align:center;">Loading logos...</div>'; // Clear static placeholders & show loading

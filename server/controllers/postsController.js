@@ -88,7 +88,20 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getRecentPosts = asyncHandler(async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10) || 5; // Default to 5 recent posts
-  const posts = await Post.find()
+  let query = Post.find();
+
+  // If a specific category slug is requested (for the hero slider news)
+  if (req.query.category_slug) {
+    const category = await Category.findOne({ slug: req.query.category_slug });
+    if (category) {
+      query = query.where('category').equals(category._id);
+    } else {
+      // If the requested category doesn't exist, return no posts.
+      return res.status(200).json({ success: true, count: 0, data: [] });
+    }
+  }
+
+  const posts = await query
     .sort('-createdAt')
     .limit(limit)
     .populate('category', 'name slug');
