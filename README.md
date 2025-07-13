@@ -10,25 +10,17 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **SEO Optimized:** Auto-generated slugs, meta tags, dynamic `sitemap.xml` and `robots.txt`, Schema.org markup.
 *   **Customizable:** Manage sidebar content, ad slots, and global site settings like Google Analytics, SMTP, and AdSense.
 *   **Responsive Design:** Ensures a good viewing experience across devices.
-*   **Enhanced Homepage:** Includes an "Industry News" hero slider, sections for "Courses to Pursue" (with Font Awesome icons), "Companies Hiring (Logo Carousel with Brandfetch API integration)," and "Trending Jobs."
+*   **Enhanced Homepage:** Includes a live "Industry News" hero slider powered by NewsAPI.org, sections for "Courses to Pursue" (with Font Awesome icons), "Companies Hiring (Logo Carousel with Brandfetch API integration)," and "Trending Jobs."
 
 ## Tech Stack
 
 *   **Frontend:** HTML5, CSS3, JavaScript (Vanilla), Font Awesome
-*   **Backend:** Node.js, Express.js
+*   **Backend:** Node.js, Express.js, Axios
 *   **Database:** MongoDB (MongoDB Atlas recommended)
 *   **Authentication:** JWT (JSON Web Tokens) for Admin Panel
-*   **Key npm Packages:**
-    *   `express`: Web framework
-    *   `mongoose`: MongoDB ODM
-    *   `jsonwebtoken`: For JWT generation and verification
-    *   `bcryptjs`: For password hashing
-    *   `dotenv`: For environment variables
-    *   `cors`: For enabling Cross-Origin Resource Sharing
-    *   `slugify`: For generating URL-friendly slugs
-    *   `xmlbuilder2`: For generating sitemap.xml
-*   **External Services/APIs (Optional but Recommended for Full Experience):**
-    *   **Brandfetch API:** Used for dynamically fetching company logos on the homepage. Requires an API key.
+*   **External Services/APIs:**
+    *   **NewsAPI.org:** Used for the live "Industry News" hero slider. Requires an API key.
+    *   **Brandfetch API:** Used for dynamically fetching company logos. Requires an API key.
 
 ---
 
@@ -40,21 +32,20 @@ This project consists of two main parts that need to be deployed separately: the
 
 The easiest way to deploy the backend is using [Render](https://render.com/) and the included `render.yaml` "Blueprint" file.
 
-1.  **Push to GitHub:** Ensure your latest code, including the `render.yaml` file, is pushed to your GitHub repository.
+1.  **Push to GitHub:** Ensure your latest code is pushed to your GitHub repository.
 2.  **Create a Render Account:** Sign up at [Render.com](https://render.com/) and connect your GitHub account.
 3.  **Create a Blueprint:**
     *   From your dashboard, click **New + > Blueprint**.
-    *   Select your `college-nexis` repository. Render will automatically detect and parse the `render.yaml` file.
-    *   Give your new service group a name.
+    *   Select your `college-nexis` repository. Render will automatically detect and parse `render.yaml`.
 4.  **Create a Secret Group:** Before deploying, you must provide your secret environment variables.
-    *   Navigate to the **Environment** tab for the `college-nexis-api` service that Render has planned for you.
     *   Render will prompt you to create the `college-nexis-secrets` group defined in the YAML. Click to create it.
     *   Add the following secrets to the group:
         *   `MONGO_URI`: Your full MongoDB Atlas connection string.
         *   `JWT_SECRET`: Your unique and strong JWT secret key.
+        *   `NEWS_API_KEY`: Your API key from NewsAPI.org.
     *   Save the secret group.
 5.  **Deploy:**
-    *   Click **"Apply"** or **"Create New Services"**. Render will start the build (`npm install`) and start (`npm start`) commands.
+    *   Click **"Apply"** or **"Create New Services"**. Render will deploy your service.
     *   Once live, Render will provide the public URL for your backend (e.g., `https://college-nexis-api.onrender.com`). **Copy this URL.**
 
 ### Frontend Deployment with GitHub Pages
@@ -62,9 +53,8 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
 1.  **Update API URL in Frontend Code:** This is a crucial step.
     *   Open `public/js/main.js` and `admin/js/auth.js`.
     *   Find the line `const API_BASE_URL = '/api';`.
-    *   Change it to the live URL from your Render deployment. **Important:** Make sure it points to the `/api` path.
+    *   Change it to the live URL from your Render deployment:
         ```javascript
-        // Example:
         const API_BASE_URL = 'https://college-nexis-api.onrender.com/api';
         ```
     *   Save, commit, and push this change to GitHub.
@@ -72,8 +62,7 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
     *   In your GitHub repository, go to **Settings > Pages**.
     *   Under "Build and deployment," select **"Deploy from a branch"**.
     *   Set the branch to **`main`** and the folder to **`/(root)`**.
-    *   Click **Save**.
-    *   Your site will be live in a few minutes at `https://your-username.github.io/your-repo-name/`.
+    *   Click **Save**. Your site will be live in a few minutes.
 
 ---
 
@@ -84,7 +73,8 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
 *   Node.js (v14.x or later recommended)
 *   npm (usually comes with Node.js)
 *   MongoDB Atlas account (or a local MongoDB instance)
-*   (Optional) Brandfetch API Key for dynamic company logos.
+*   NewsAPI.org API Key
+*   (Optional) Brandfetch API Key
 
 ### 1. Clone & Install
 
@@ -97,7 +87,7 @@ npm install
 ### 2. Configure Local Environment
 
 1.  **Create `.env` file:** Create a `.env` file in the project root.
-2.  **Add Variables:** Copy the contents from the template below and replace with your credentials.
+2.  **Add Variables:** Copy the contents from the template below and add your credentials.
     ```env
     # .env - For Local Development
 
@@ -106,6 +96,9 @@ npm install
 
     # JWT Secret Key
     JWT_SECRET="a_very_strong_local_secret"
+
+    # NewsAPI.org API Key for Hero Slider
+    NEWS_API_KEY="your_news_api_key_here"
 
     # Port
     PORT=3000
@@ -122,7 +115,7 @@ npm install
     ```bash
     npm run dev
     ```
-    The backend API will run on `http://localhost:3000`. The frontend can be accessed by opening the `public/index.html` file in your browser, or by navigating to `http://localhost:3000`.
+    The backend API will run on `http://localhost:3000`. The frontend can be accessed by opening `public/index.html` file or navigating to `http://localhost:3000`.
 
 *   **Production Mode:**
     ```bash
@@ -148,10 +141,9 @@ The first admin user must be created manually for security.
 4.  **IMPORTANT: Revert `server/routes/auth.js` Changes** and restart the server.
 5.  You can now log in at `http://localhost:3000/admin/`.
 
-### Seeding Example Data
+### Content Management
 Once logged into the admin panel, you can:
-*   **Add Categories:** Go to "Manage Categories". To populate the homepage news slider, create a category with the exact name **`Industry News`**. Add other categories as needed (e.g., `Tech Careers`, `Higher Education Tips`).
-*   **Add Posts:** Go to "Manage Posts" and add articles to your created categories. The latest posts from the "Industry News" category will appear in the homepage hero slider.
+*   **Add Categories & Posts:** Use the "Manage Posts" and "Manage Categories" sections to create your own blog content.
 *   **Configure Site Settings:** Go to "Site Settings" to configure Google Analytics, SMTP, AdSense, etc.
 
 ---

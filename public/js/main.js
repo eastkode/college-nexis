@@ -183,33 +183,52 @@ function initializeSlider(sliderSelector, slideSelector, prevButtonSelector, nex
  */
 async function loadHeroSlider() {
     const heroSliderElement = document.querySelector('.hero-slider');
-    if (!heroSliderElement) return; // Slider not on this page
+    const heroSliderContainer = document.querySelector('.hero-slider-container');
+    if (!heroSliderElement || !heroSliderContainer) return;
 
-    heroSliderElement.innerHTML = '<div class="loading-spinner">Loading slides...</div>';
-    // Fetch 5 recent posts specifically from the 'industry-news' category
-    const result = await fetchData('/posts/recent?limit=5&category_slug=industry-news');
+    heroSliderElement.innerHTML = '<div class="loading-spinner">Loading trending news...</div>';
+    // Update the section title
+    const sectionTitle = heroSliderContainer.querySelector('h2');
+    if (sectionTitle) sectionTitle.textContent = "What's Happening in the Industry";
 
-    if (result && result.success && result.data.length > 0) {
-        heroSliderElement.innerHTML = ''; // Clear loading
-        result.data.forEach(post => {
-            const slide = document.createElement('div');
-            slide.className = 'hero-slide';
-            slide.innerHTML = `
-                <img src="${post.featuredImage || 'img/default-hero.jpg'}" alt="${post.title}" loading="lazy">
-                <div class="hero-slide-content">
-                    ${post.category ? `<span class="post-card-category">${post.category.name}</span>` : ''}
-                    <h3><a href="single-post.html?slug=${post.slug}">${post.title}</a></h3>
-                    <p>${post.excerpt || post.subtitle || post.content.substring(0, 80) + '...'}</p>
-                </div>
-            `;
-            heroSliderElement.appendChild(slide);
-        });
-        // Initialize the slider functionality (assuming controls are outside heroSliderElement but associated)
-        initializeSlider('.hero-slider', '.hero-slide', '.slider-controls .prev', '.slider-controls .next', 6000);
-    } else {
-        heroSliderElement.innerHTML = '<p>No recent posts to display in slider.</p>';
+    try {
+        const result = await fetchData('/news/trending'); // Call the new backend proxy
+
+        if (result && result.success && result.data.length > 0) {
+            heroSliderElement.innerHTML = ''; // Clear loading message
+            result.data.forEach(article => {
+                const slide = document.createElement('a'); // Make the entire slide a link
+                slide.className = 'hero-slide';
+                slide.href = article.url;
+                slide.target = '_blank'; // Open news in a new tab
+                slide.rel = 'noopener noreferrer';
+
+                // Use article image, with a fallback
+                const imageUrl = article.urlToImage || 'img/default-hero.jpg';
+
+                slide.innerHTML = `
+                    <img src="${imageUrl}" alt="" loading="lazy">
+                    <div class="hero-slide-content">
+                        ${article.source.name ? `<span class="post-card-category">${article.source.name}</span>` : ''}
+                        <h3>${article.title}</h3>
+                        <p>${article.description || ''}</p>
+                    </div>
+                `;
+                heroSliderElement.appendChild(slide);
+            });
+            // Re-initialize the slider functionality
+            initializeSlider('.hero-slider', '.hero-slide', '.slider-controls .prev', '.slider-controls .next', 8000); // Slower rotation for news
+        } else {
+            // Handle case where no news is returned
+            heroSliderElement.innerHTML = '<p>Could not load trending news at this time.</p>';
+            const controls = document.querySelector('.slider-controls');
+            if (controls) controls.style.display = 'none';
+        }
+    } catch (error) {
+        console.error("Error loading hero slider news:", error);
+        heroSliderElement.innerHTML = '<p>Failed to load trending news. Please try again later.</p>';
         const controls = document.querySelector('.slider-controls');
-        if(controls) controls.style.display = 'none';
+        if (controls) controls.style.display = 'none';
     }
 }
 
