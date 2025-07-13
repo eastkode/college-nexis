@@ -43,6 +43,9 @@ app.use('/api/users', usersRoutes); // Added users route mounting
 app.use('/', sitemapRoutes); // Serves /sitemap.xml
 app.use('/', robotsRoutes);   // Serves /robots.txt
 
+// Serve Admin static files
+app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
+
 
 // Serve static assets (frontend) in production
 if (process.env.NODE_ENV === 'production') {
@@ -53,10 +56,13 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html')));
 } else {
   // In development, you might serve static files differently or rely on a dev server for the frontend
-  // For simplicity, we can still serve a basic public folder if it exists
+  // In development, serve both public and admin static folders
   app.use(express.static(path.join(__dirname, '..', 'public')));
-   app.get('/', (req, res) => {
-    res.send('API is running in development mode...');
+  // The line app.use('/admin', ...) is already added outside this if/else block,
+  // so it will apply to both dev and prod, which is correct.
+  // The root path can serve the index.html from public.
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
   });
 }
 

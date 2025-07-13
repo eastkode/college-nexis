@@ -1,0 +1,29 @@
+# render.yaml
+# This file configures the deployment of the College Nexis backend on Render.
+# For more details, see: https://render.com/docs/blueprint-spec
+
+services:
+  # A web service for our Node.js Express backend
+  - type: web
+    name: college-nexis-api
+    # Runtime environment
+    env: node
+    # Specify a plan (e.g., 'free' or 'starter').
+    # Free instances spin down after 15 minutes of inactivity.
+    plan: free
+    # The branch to deploy from
+    branch: main # Or your default branch
+    # The commands to build and start the service
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    # Health check path to ensure the service is running
+    healthCheckPath: /api/posts/recent?limit=1
+    # Environment variables
+    # For security, secrets (like MONGO_URI and JWT_SECRET) are not stored here.
+    # Instead, we link to a 'Secret Group' that you will create in the Render dashboard.
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # The following keys will be populated from the 'college-nexis-secrets' group
+      # that you create in the Render dashboard.
+      - fromGroup: college-nexis-secrets
