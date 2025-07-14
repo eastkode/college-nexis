@@ -192,10 +192,13 @@ async function loadHeroSlider() {
     if (sectionTitle) sectionTitle.textContent = "What's Happening in the Industry";
 
     try {
+        console.log("INFO: Calling backend proxy for news: /api/news/trending");
         const result = await fetchData('/news/trending'); // Call the new backend proxy
+        console.log("INFO: Received response from backend proxy:", result);
 
         if (result && result.success && result.data.length > 0) {
             heroSliderElement.innerHTML = ''; // Clear loading message
+            console.log(`INFO: Rendering ${result.data.length} news articles in hero slider.`);
             result.data.forEach(article => {
                 const slide = document.createElement('a'); // Make the entire slide a link
                 slide.className = 'hero-slide';
@@ -555,7 +558,7 @@ async function loadLatestPostsPreview() {
     }
 }
 
-// Refactored to fetch company list from a local JSON file.
+// Rewritten from scratch to be robust.
 async function initializeLogoCarousel() {
     const carousel = document.getElementById('logo-carousel');
     if (!carousel) return;
@@ -565,26 +568,24 @@ async function initializeLogoCarousel() {
     try {
         const response = await fetch('/data/companies.json');
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Could not fetch companies.json: ${response.statusText}`);
         }
         const companies = await response.json();
 
         carousel.innerHTML = ''; // Clear loading message
 
-        // The token provided by the user
         const apiToken = "pk_ZfUF007wSbKj3EvZY_msLg";
 
         companies.forEach(company => {
             const img = document.createElement('img');
-            // Construct the URL exactly as specified, with token and format parameters
-            img.src = `https://img.logo.dev/${company.domain}?token=${apiToken}&format=png&retina=true`;
+            const logoUrl = `https://img.logo.dev/${company.domain}?token=${apiToken}&format=png&retina=true`;
+            img.src = logoUrl;
             img.alt = `${company.name} Logo`;
 
-            // Handle potential loading errors for individual images
+            // Set a fallback image in case of an error
             img.onerror = () => {
-                console.warn(`Could not load logo for ${company.domain}`);
-                // Fallback to a simpler placeholder if the logo fails
-                img.src = `https://via.placeholder.com/150x60.png?text=${company.name.split(' ')[0]}`;
+                console.warn(`Could not load logo for ${company.domain} from logo.dev. Using placeholder.`);
+                img.src = `https://placehold.co/150x60/EEE/31343C?text=${company.name.split(' ')[0]}`;
             };
             carousel.appendChild(img);
         });
@@ -595,10 +596,11 @@ async function initializeLogoCarousel() {
             carousel.innerHTML = "<p>Could not load company logos.</p>";
         }
     } catch (error) {
-        console.error('Error fetching or processing companies.json:', error);
+        console.error('Error in initializeLogoCarousel:', error);
         carousel.innerHTML = "<p>Error loading company list.</p>";
     }
 }
+
 
 // Renamed and adjusted animation function
 function startLogoCarouselAnimation(carouselElement, originalLogoCount) {

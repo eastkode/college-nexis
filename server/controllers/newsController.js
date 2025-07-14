@@ -5,10 +5,11 @@ const asyncHandler = require('../middleware/asyncHandler');
 // @route   GET /api/news/trending
 // @access  Public
 exports.getTrendingNews = asyncHandler(async (req, res, next) => {
+    console.log("INFO: /api/news/trending endpoint hit.");
     const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
     if (!NEWS_API_KEY) {
-        console.error('NewsAPI key not configured in .env file.');
+        console.error('FATAL: NewsAPI key not configured in .env file.');
         return res.status(500).json({ success: false, message: 'News service is not configured.' });
     }
 
@@ -31,6 +32,7 @@ exports.getTrendingNews = asyncHandler(async (req, res, next) => {
 
     // Construct the NewsAPI URL
     const apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&sortBy=relevancy&pageSize=10`;
+    console.log(`INFO: Calling NewsAPI with URL: ${apiUrl}`);
 
     try {
         const response = await axios.get(apiUrl, {
@@ -40,6 +42,7 @@ exports.getTrendingNews = asyncHandler(async (req, res, next) => {
         });
 
         if (response.data && response.data.articles) {
+            console.log(`INFO: Received ${response.data.articles.length} articles from NewsAPI.`);
             // Filter out articles without an image, as they won't look good in a slider
             const articlesWithImages = response.data.articles.filter(article => article.urlToImage);
 
