@@ -526,109 +526,58 @@ async function loadLatestPostsPreview() {
     }
 }
 
+// Refactored to use the simpler Clearbit/logo.dev service
 function initializeLogoCarousel() {
     const carousel = document.getElementById('logo-carousel');
     if (!carousel) return;
 
-    const logos = Array.from(carousel.children);
-    if (logos.length === 0) return;
+    const companies = [
+        { name: "Google", domain: "google.com" },
+        { name: "Microsoft", domain: "microsoft.com" },
+        { name: "Amazon", domain: "amazon.com" },
+        { name: "Apple", domain: "apple.com" },
+        { name: "Meta", domain: "meta.com" },
+        { name: "Infosys", domain: "infosys.com" },
+        { name: "Tata Consultancy Services", domain: "tcs.com" },
+        { name: "Accenture", domain: "accenture.com" },
+        { name: "IBM", domain: "ibm.com" },
+        { name: "Oracle", domain: "oracle.com" },
+        { name: "SAP", domain: "sap.com" },
+        { name: "Cisco", domain: "cisco.com" },
+        { name: "Intel", domain: "intel.com" },
+        { name: "Deloitte", domain: "deloitte.com" },
+        { name: "PwC", domain: "pwc.com" },
+        { name: "EY", domain: "ey.com" },
+        { name: "KPMG", domain: "kpmg.com" },
+        { name: "HCL Technologies", domain: "hcltech.com" },
+        { name: "Wipro", domain: "wipro.com" },
+        { name: "Capgemini", domain: "capgemini.com" },
+        { name: "Cognizant", domain: "cognizant.com" },
+        { name: "Adobe", domain: "adobe.com" },
+        { name: "Salesforce", domain: "salesforce.com" },
+        { name: "NVIDIA", domain: "nvidia.com" },
+        { name: "Samsung", domain: "samsung.com" }
+    ];
 
-    // Duplicate logos for seamless looping
-    logos.forEach(logo => {
-        const clone = logo.cloneNode(true);
-        carousel.appendChild(clone);
-    });
+    carousel.innerHTML = ''; // Clear existing static placeholders
 
-    let scrollAmount = 0;
-    const scrollSpeed = 0.5; // Adjust speed: lower is slower
-
-    function animateCarousel() {
-        scrollAmount -= scrollSpeed;
-        // If the first half of logos has scrolled out of view, reset scrollAmount
-        // This assumes all original logos have roughly the same width.
-        // A more robust way would be to calculate the width of the first set of logos.
-        const firstSetWidth = carousel.scrollWidth / 2;
-        if (Math.abs(scrollAmount) >= firstSetWidth) {
-            scrollAmount = 0;
-        }
-        carousel.style.transform = `translateX(${scrollAmount}px)`;
-        requestAnimationFrame(animateCarousel);
-    }
-
-// This function will fetch logos and then start the animation
-async function initializeLogoCarousel() {
-    const carousel = document.getElementById('logo-carousel');
-    if (!carousel) return;
-
-    // Using the API key you provided directly.
-    // For production, it's highly recommended to move this to a backend proxy endpoint
-    // or use a more secure method of key management.
-    const apiKey = "1id3jIHfKCPaRF59DUN";
-
-    const companyNames = ["Google", "Microsoft", "Amazon", "Infosys", "Wipro", "Accenture"];
-    carousel.innerHTML = '<div class="loading-spinner" style="width:100%; text-align:center;">Loading logos...</div>'; // Clear static placeholders & show loading
-
-    const logoPromises = companyNames.map(async (name) => {
-        try {
-            // Using the API key as a query parameter 'c' as per user's cURL example.
-            const apiUrl = `https://api.brandfetch.io/v2/search/${encodeURIComponent(name)}?c=${apiKey}`;
-            const apiResponse = await fetch(apiUrl);
-
-            if (!apiResponse.ok) {
-                console.warn(`Brandfetch API error for ${name}: ${apiResponse.status} ${apiResponse.statusText}. URL: ${apiUrl}`);
-                return { name, src: `https://via.placeholder.com/150x60.png?text=${name.replace(/\s+/g, '+')}+Not+Found`, alt: `${name} Logo (Not Found)` };
-            }
-
-            const data = await apiResponse.json();
-            let logoUrl = null;
-            const brandInfo = Array.isArray(data) ? data[0] : data;
-
-            if (brandInfo) {
-                if (brandInfo.logos && brandInfo.logos.length > 0) {
-                    const logoObject = brandInfo.logos.find(l => l.type === 'logo');
-                    if (logoObject && logoObject.formats && logoObject.formats.length > 0) {
-                        const svgLogo = logoObject.formats.find(f => f.format === 'svg' && f.src);
-                        const pngLogo = logoObject.formats.find(f => f.format === 'png' && f.src);
-                        logoUrl = svgLogo ? svgLogo.src : (pngLogo ? pngLogo.src : null);
-                    }
-                    if (!logoUrl && brandInfo.logos[0].formats && brandInfo.logos[0].formats.length > 0) {
-                         logoUrl = brandInfo.logos[0].formats[0].src;
-                    }
-                }
-                if (!logoUrl && brandInfo.icon) {
-                    logoUrl = brandInfo.icon;
-                } else if (!logoUrl && brandInfo.icons && brandInfo.icons.length > 0) {
-                     const svgIcon = brandInfo.icons.find(i => i.type === 'svg' && i.src);
-                     const pngIcon = brandInfo.icons.find(i => i.type === 'png' && i.src);
-                     logoUrl = svgIcon ? svgIcon.src : (pngIcon ? pngIcon.src : null);
-                     if(!logoUrl && brandInfo.icons[0].src) logoUrl = brandInfo.icons[0].src;
-                }
-            }
-
-            if (logoUrl) {
-                return { name, src: logoUrl, alt: `${name} Logo` };
-            } else {
-                console.warn(`Logo URL not found in Brandfetch response for ${name}.`);
-                return { name, src: `https://via.placeholder.com/150x60.png?text=${name.replace(/\s+/g, '+')}+Logo`, alt: `${name} Logo (Placeholder)` };
-            }
-        } catch (error) {
-            console.error(`Error fetching logo for ${name}:`, error);
-            return { name, src: `https://via.placeholder.com/150x60.png?text=${name.replace(/\s+/g, '+')}+Error`, alt: `${name} Logo (Error)` };
-        }
-    });
-
-    const loadedLogos = await Promise.all(logoPromises);
-    carousel.innerHTML = ''; // Clear loading message
-
-    loadedLogos.forEach(logoData => {
+    companies.forEach(company => {
         const img = document.createElement('img');
-        img.src = logoData.src;
-        img.alt = logoData.alt;
+        // The service at logo.dev is a proxy for logo.clearbit.com
+        // The token you provided might be for that service specifically.
+        // For robustness, I'll use the clearbit URL which is the underlying source.
+        img.src = `https://logo.clearbit.com/${company.domain}`;
+        img.alt = `${company.name} Logo`;
+        // Handle potential loading errors for individual images
+        img.onerror = () => {
+            console.warn(`Could not load logo for ${company.domain}`);
+            img.src = `https://via.placeholder.com/150x60.png?text=${company.name.replace(/\s+/g, '+')}`;
+        };
         carousel.appendChild(img);
     });
 
     if (carousel.children.length > 0) {
-        startLogoCarouselAnimation(carousel, companyNames.length); // Pass original number of logos
+        startLogoCarouselAnimation(carousel, companies.length);
     } else {
         carousel.innerHTML = "<p>Could not load company logos.</p>";
     }
@@ -698,3 +647,6 @@ window.getQueryParam = getQueryParam;
 window.lazyLoadImages = lazyLoadImages;
 window.API_BASE_URL = API_BASE_URL;
 window.setGlobalMeta = setGlobalMeta; // Allow page-specific scripts to call this after setting their own title/desc
+```
+
+[end of public/js/main.js]

@@ -10,7 +10,7 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **SEO Optimized:** Auto-generated slugs, meta tags, dynamic `sitemap.xml` and `robots.txt`, Schema.org markup.
 *   **Customizable:** Manage sidebar content, ad slots, and global site settings like Google Analytics, SMTP, and AdSense.
 *   **Responsive Design:** Ensures a good viewing experience across devices.
-*   **Enhanced Homepage:** Includes a live "Industry News" hero slider powered by NewsAPI.org, sections for "Courses to Pursue" (with Font Awesome icons), "Companies Hiring (Logo Carousel with Brandfetch API integration)," and "Trending Jobs."
+*   **Enhanced Homepage:** Includes a live "Industry News" hero slider (NewsAPI.org), sections for "Courses to Pursue" (Font Awesome icons), "Companies Hiring" (Clearbit Logo API), and "Trending Jobs."
 
 ## Tech Stack
 
@@ -20,7 +20,7 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **Authentication:** JWT (JSON Web Tokens) for Admin Panel
 *   **External Services/APIs:**
     *   **NewsAPI.org:** Used for the live "Industry News" hero slider. Requires an API key.
-    *   **Brandfetch API:** Used for dynamically fetching company logos. Requires an API key.
+    *   **Clearbit Logo API:** Used for dynamically fetching company logos. No key required for this implementation.
 
 ---
 
@@ -74,7 +74,6 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
 *   npm (usually comes with Node.js)
 *   MongoDB Atlas account (or a local MongoDB instance)
 *   NewsAPI.org API Key
-*   (Optional) Brandfetch API Key
 
 ### 1. Clone & Install
 
@@ -106,8 +105,6 @@ npm install
     # Node Environment
     NODE_ENV=development
     ```
-3.  **Configure Brandfetch API Key (Optional):**
-    *   The `public/js/main.js` file is hardcoded with the key you provided for demonstration. For production, it's recommended to manage this more securely (e.g., via a backend proxy).
 
 ### 3. Running the Application
 
