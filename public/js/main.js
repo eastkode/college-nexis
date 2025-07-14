@@ -584,7 +584,7 @@ async function initializeLogoCarousel() {
             img.onerror = () => {
                 console.warn(`Could not load logo for ${company.domain}`);
                 // Fallback to a simpler placeholder if the logo fails
-                img.src = `https://via.placeholder.com/150x60.png?text=${company.name.split(' ')[0]}`;
+                img.src = `https://placehold.co/150x60.png?text=${company.name.split(' ')[0]}`;
             };
             carousel.appendChild(img);
         });
