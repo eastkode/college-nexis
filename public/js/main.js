@@ -532,46 +532,57 @@ function initializeLogoCarousel() {
     if (!carousel) return;
 
     const companies = [
-        { name: "Google", domain: "google.com" },
-        { name: "Microsoft", domain: "microsoft.com" },
-        { name: "Amazon", domain: "amazon.com" },
-        { name: "Apple", domain: "apple.com" },
-        { name: "Meta", domain: "meta.com" },
-        { name: "Infosys", domain: "infosys.com" },
-        { name: "Tata Consultancy Services", domain: "tcs.com" },
-        { name: "Accenture", domain: "accenture.com" },
-        { name: "IBM", domain: "ibm.com" },
-        { name: "Oracle", domain: "oracle.com" },
-        { name: "SAP", domain: "sap.com" },
-        { name: "Cisco", domain: "cisco.com" },
-        { name: "Intel", domain: "intel.com" },
-        { name: "Deloitte", domain: "deloitte.com" },
-        { name: "PwC", domain: "pwc.com" },
-        { name: "EY", domain: "ey.com" },
-        { name: "KPMG", domain: "kpmg.com" },
-        { name: "HCL Technologies", domain: "hcltech.com" },
-        { name: "Wipro", domain: "wipro.com" },
-        { name: "Capgemini", domain: "capgemini.com" },
-        { name: "Cognizant", domain: "cognizant.com" },
-        { name: "Adobe", domain: "adobe.com" },
-        { name: "Salesforce", domain: "salesforce.com" },
-        { name: "NVIDIA", domain: "nvidia.com" },
-        { name: "Samsung", domain: "samsung.com" }
+        { name: 'Suzuki Motor Corporation', domain: 'globalsuzuki.com' },
+        { name: 'Hyundai Motor Co Group', domain: 'hyundaimotorgroup.com' },
+        { name: 'Nayara Energy', domain: 'nayaraenergy.com' },
+        { name: 'Walmart Inc', domain: 'walmart.com' },
+        { name: 'Samsung Group', domain: 'samsung.com' },
+        { name: 'BBK Electronics', domain: 'bbk.com' },
+        { name: 'Toyota Motor Co Group', domain: 'global.toyota' },
+        { name: 'Apple India', domain: 'apple.com' },
+        { name: 'Accenture Solutions', domain: 'accenture.com' },
+        { name: 'Hindustan Unilever', domain: 'hul.co.in' },
+        { name: 'Wilmar International', domain: 'wilmar-international.com' },
+        { name: 'Amazon Group', domain: 'amazon.com' },
+        { name: 'Foxconn Hon Hai Technology', domain: 'foxconn.com' },
+        { name: 'Honda Motor Co Group', domain: 'global.honda' },
+        { name: 'Hewlett-Packard', domain: 'hp.com' },
+        { name: 'Cognizant', domain: 'cognizant.com' },
+        { name: 'Bosch Group', domain: 'bosch.com' },
+        { name: 'Siemens AG', domain: 'siemens.com' },
+        { name: 'Ingram Micro India', domain: 'ingrammicro.com' },
+        { name: 'Hitachi Group', domain: 'hitachi.com' },
+        { name: 'GE Group', domain: 'ge.com' },
+        { name: 'Cummins Group', domain: 'cummins.com' },
+        { name: 'Dell Technologies Inc', domain: 'dell.com' },
+        { name: 'IBM India', domain: 'ibm.com' },
+        { name: 'Oracle Corporation', domain: 'oracle.com' },
+        { name: 'Ericsson India', domain: 'ericsson.com' },
+        { name: 'Xiaomi Technology India', domain: 'mi.com' },
+        { name: 'Mercedes-Benz Group AG', domain: 'mercedes-benz.com' },
+        { name: 'Capgemini', domain: 'capgemini.com' },
+        { name: 'Nokia Solutions & Network India', domain: 'nokia.com' },
+        { name: 'Shell Group', domain: 'shell.com' },
+        { name: 'Pernod Ricard India', domain: 'pernod-ricard.com' },
+        { name: 'BP PLC', domain: 'bp.com' },
+        { name: 'Deloitte Touche Tohmatsu', domain: 'deloitte.com' },
+        { name: 'Schneider Group', domain: 'se.com' },
+        { name: 'Nestle India', domain: 'nestle.in' },
+        { name: 'COFCO International', domain: 'cofcointernational.com' },
+        { name: 'British American Tobacco PLC', domain: 'bat.com' },
+        { name: 'Cisco Systems, Inc.', domain: 'cisco.com' }
     ];
 
     carousel.innerHTML = ''; // Clear existing static placeholders
 
     companies.forEach(company => {
         const img = document.createElement('img');
-        // The service at logo.dev is a proxy for logo.clearbit.com
-        // The token you provided might be for that service specifically.
-        // For robustness, I'll use the clearbit URL which is the underlying source.
         img.src = `https://logo.clearbit.com/${company.domain}`;
         img.alt = `${company.name} Logo`;
         // Handle potential loading errors for individual images
         img.onerror = () => {
             console.warn(`Could not load logo for ${company.domain}`);
-            img.src = `https://via.placeholder.com/150x60.png?text=${company.name.replace(/\s+/g, '+')}`;
+            img.src = `https://via.placeholder.com/150x60.png?text=${company.name.split(' ')[0]}`;
         };
         carousel.appendChild(img);
     });
