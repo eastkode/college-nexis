@@ -85,8 +85,10 @@
                     </div>
                     <div class="form-group">
                         <label for="post-featured-image">Featured Image URL (Optional):</label>
-                        <input type="url" id="post-featured-image" name="featuredImage" class="form-control" placeholder="https://example.com/image.jpg">
-                        <!-- Basic file upload could be added here -->
+                        <div class="image-search-container">
+                            <input type="url" id="post-featured-image" name="featuredImage" class="form-control" placeholder="https://example.com/image.jpg">
+                            <button type="button" id="find-image-btn" class="btn btn-secondary">Find Image</button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="post-meta-title">Meta Title (Optional, auto-generated if blank):</label>
@@ -112,5 +114,17 @@
     </div>
     <script src="js/auth.js"></script>
     <script src="js/manage-posts.js"></script>
+
+    <!-- Modal for Image Search -->
+    <div id="image-search-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Search for an Image</h2>
+            <p>Results for: "<span id="image-search-query"></span>"</p>
+            <div id="image-search-results" class="image-results-grid">
+                <!-- Search results will be injected here -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>

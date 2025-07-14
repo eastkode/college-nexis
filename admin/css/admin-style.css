@@ -390,3 +390,75 @@ a:hover {
 .hidden {
     display: none !important;
 }
+
+/* --- Image Search Container in Form --- */
+.image-search-container {
+    display: flex;
+    gap: 10px;
+}
+.image-search-container .form-control {
+    flex-grow: 1;
+}
+
+/* --- Modal Styles --- */
+.modal {
+    position: fixed;
+    z-index: 1001; /* Above admin layout but below potential super-modals */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 900px;
+    border-radius: var(--admin-border-radius);
+    position: relative;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+.modal-close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+.modal-close:hover,
+.modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.image-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    overflow-y: auto; /* Allow scrolling for results */
+    padding-top: 15px;
+}
+.image-results-grid img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid transparent;
+}
+.image-results-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-color: var(--admin-accent-color);
+}
