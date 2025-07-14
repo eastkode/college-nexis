@@ -519,102 +519,84 @@ async function loadLatestPostsPreview() {
     if (result && result.success && result.data.length > 0) {
         previewGrid.innerHTML = ''; // Clear placeholders
 
-        // Use Promise.all to fetch images for posts without one, in parallel
-        const postPromises = result.data.map(async (post) => {
+        // Render cards first, then update images asynchronously
+        result.data.forEach(post => {
+            const card = createPostCard(post);
+            card.dataset.postId = post._id; // Add an ID to find the card later
+            previewGrid.appendChild(card);
+
+            // If no image, fetch one from Pixabay
             if (!post.featuredImage || post.featuredImage === 'no-photo.jpg') {
-                try {
-                    // Fetch an image from Pixabay based on the post title
-                    const imageResult = await fetchData(`/images/search?q=${encodeURIComponent(post.title)}`);
-                    if (imageResult.success && imageResult.data.length > 0) {
-                        // Use the webformatURL for a good balance of size and quality
-                        post.featuredImage = imageResult.data[0].webformatURL;
-                    }
-                } catch (e) {
-                    console.warn(`Could not fetch dynamic image for post "${post.title}"`, e);
-                    // Leave featuredImage as is, createPostCard will use a default
-                }
+                fetchData(`/images/search?q=${encodeURIComponent(post.title)}`)
+                    .then(imageResult => {
+                        if (imageResult && imageResult.success && imageResult.data.length > 0) {
+                            const newImageUrl = imageResult.data[0].webformatURL;
+                            // Find the corresponding card's image element and update its src
+                            const cardToUpdate = previewGrid.querySelector(`[data-post-id="${post._id}"]`);
+                            if (cardToUpdate) {
+                                const imgElement = cardToUpdate.querySelector('.post-card-image img');
+                                if (imgElement) {
+                                    imgElement.src = newImageUrl;
+                                }
+                            }
+                        }
+                    })
+                    .catch(e => {
+                        console.warn(`Could not fetch dynamic image for post "${post.title}"`, e);
+                    });
             }
-            return post; // Return the post, now possibly with a new featuredImage
-        });
-
-        const postsWithImages = await Promise.all(postPromises);
-
-        postsWithImages.forEach(post => {
-            previewGrid.appendChild(createPostCard(post));
         });
         lazyLoadImages(); // Re-run for newly added images
     } else {
-        // If there are no posts, the static placeholders in the HTML will remain.
-        // We can choose to clear them or leave them. Let's leave them.
+        // If there are no posts from the API, the static placeholders in the HTML will remain.
+        // This is the desired behavior. If we want to show a "No posts" message, we clear the grid.
+        // Let's clear it to be explicit.
         previewGrid.innerHTML = '<p style="text-align:center; width:100%;">No recent articles found. Check back soon!</p>';
     }
 }
 
-// Using logo.dev service with the provided token
-function initializeLogoCarousel() {
+// Refactored to fetch company list from a local JSON file.
+async function initializeLogoCarousel() {
     const carousel = document.getElementById('logo-carousel');
     if (!carousel) return;
 
-    const companies = [
-        { name: "Suzuki", domain: "globalsuzuki.com" },
-        { name: "Hyundai", domain: "hyundai.com" },
-        { name: "Nayara Energy", domain: "nayaraenergy.com" },
-        { name: "Walmart", domain: "walmart.com" },
-        { name: "Samsung", domain: "samsung.com" },
-        { name: "BBK Electronics", domain: "bbk.com" },
-        { name: "Toyota", domain: "global.toyota" },
-        { name: "Apple", domain: "apple.com" },
-        { name: "Accenture", domain: "accenture.com" },
-        { name: "Unilever", domain: "unilever.com" },
-        { name: "Wilmar International", domain: "wilmar-international.com" },
-        { name: "Amazon", domain: "amazon.com" },
-        { name: "Foxconn", domain: "foxconn.com" },
-        { name: "Honda", domain: "global.honda" },
-        { name: "HP", domain: "hp.com" },
-        { name: "Cognizant", domain: "cognizant.com" },
-        { name: "Bosch", domain: "bosch.com" },
-        { name: "Siemens", domain: "siemens.com" },
-        { name: "Ingram Micro", domain: "ingrammicro.com" },
-        { name: "Hitachi", domain: "hitachi.com" },
-        { name: "General Electric", domain: "ge.com" },
-        { name: "Cummins", domain: "cummins.com" },
-        { name: "Dell", domain: "dell.com" },
-        { name: "IBM", domain: "ibm.com" },
-        { name: "Oracle", domain: "oracle.com" },
-        { name: "Ericsson", domain: "ericsson.com" },
-        { name: "Xiaomi", domain: "mi.com" },
-        { name: "Mercedes-Benz", domain: "mercedes-benz.com" },
-        { name: "Capgemini", domain: "capgemini.com" },
-        { name: "Nokia", domain: "nokia.com" },
-        { name: "Shell", domain: "shell.com" },
-        { name: "Pernod Ricard", domain: "pernod-ricard.com" },
-        { name: "BP", domain: "bp.com" },
-        { name: "Deloitte", domain: "deloitte.com" },
-        { name: "Schneider Electric", domain: "se.com" },
-        { name: "Nestle", domain: "nestle.com" },
-        { name: "COFCO International", domain: "cofcointernational.com" },
-        { name: "British American Tobacco", domain: "bat.com" },
-        { name: "Cisco", domain: "cisco.com" }
-    ];
+    carousel.innerHTML = '<div class="loading-spinner" style="width:100%; text-align:center;">Loading logos...</div>';
 
-    carousel.innerHTML = ''; // Clear existing static placeholders
+    try {
+        const response = await fetch('/data/companies.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const companies = await response.json();
 
-    companies.forEach(company => {
-        const img = document.createElement('img');
-        img.src = `https://logo.clearbit.com/${company.domain}`;
-        img.alt = `${company.name} Logo`;
-        // Handle potential loading errors for individual images
-        img.onerror = () => {
-            console.warn(`Could not load logo for ${company.domain}`);
-            img.src = `https://via.placeholder.com/150x60.png?text=${company.name.split(' ')[0]}`;
-        };
-        carousel.appendChild(img);
-    });
+        carousel.innerHTML = ''; // Clear loading message
 
-    if (carousel.children.length > 0) {
-        startLogoCarouselAnimation(carousel, companies.length);
-    } else {
-        carousel.innerHTML = "<p>Could not load company logos.</p>";
+        // The token provided by the user
+        const apiToken = "pk_ZfUF007wSbKj3EvZY_msLg";
+
+        companies.forEach(company => {
+            const img = document.createElement('img');
+            // Construct the URL exactly as specified, with token and format parameters
+            img.src = `https://img.logo.dev/${company.domain}?token=${apiToken}&format=png&retina=true`;
+            img.alt = `${company.name} Logo`;
+
+            // Handle potential loading errors for individual images
+            img.onerror = () => {
+                console.warn(`Could not load logo for ${company.domain}`);
+                // Fallback to a simpler placeholder if the logo fails
+                img.src = `https://via.placeholder.com/150x60.png?text=${company.name.split(' ')[0]}`;
+            };
+            carousel.appendChild(img);
+        });
+
+        if (carousel.children.length > 0) {
+            startLogoCarouselAnimation(carousel, companies.length);
+        } else {
+            carousel.innerHTML = "<p>Could not load company logos.</p>";
+        }
+    } catch (error) {
+        console.error('Error fetching or processing companies.json:', error);
+        carousel.innerHTML = "<p>Error loading company list.</p>";
     }
 }
 
