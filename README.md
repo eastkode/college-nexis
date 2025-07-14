@@ -7,10 +7,13 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **Dynamic Frontend:** Built with HTML5, CSS3, and vanilla JavaScript. Content is dynamically fetched from the backend API.
 *   **Robust Backend:** Node.js with Express.js framework and MongoDB (via Atlas) for data storage.
 *   **Admin Panel:** Secure and user-friendly interface for managing posts, categories, users, sidebar widgets, advertisements, and site-wide settings.
+*   **Dynamic Imagery:**
+    *   **Live News Slider:** Homepage hero slider is powered by NewsAPI.org, showing the latest relevant news.
+    *   **Automatic Post Images:** Uses the Pixabay API to automatically find and display relevant images for blog posts that don't have a featured image set.
+    *   **Company Logos:** Dynamically fetches company logos for the homepage carousel using the Clearbit Logo API.
 *   **SEO Optimized:** Auto-generated slugs, meta tags, dynamic `sitemap.xml` and `robots.txt`, Schema.org markup.
 *   **Customizable:** Manage sidebar content, ad slots, and global site settings like Google Analytics, SMTP, and AdSense.
 *   **Responsive Design:** Ensures a good viewing experience across devices.
-*   **Enhanced Homepage:** Includes a live "Industry News" hero slider (NewsAPI.org), sections for "Courses to Pursue" (Font Awesome icons), "Companies Hiring" (Clearbit Logo API), and "Trending Jobs."
 
 ## Tech Stack
 
@@ -20,7 +23,8 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **Authentication:** JWT (JSON Web Tokens) for Admin Panel
 *   **External Services/APIs:**
     *   **NewsAPI.org:** Used for the live "Industry News" hero slider. Requires an API key.
-    *   **Clearbit Logo API:** Used for dynamically fetching company logos. No key required for this implementation.
+    *   **Pixabay API:** Used to dynamically source images for blog posts. Requires an API key.
+    *   **Clearbit Logo API:** Used for dynamically fetching company logos.
 
 ---
 
@@ -43,6 +47,7 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
         *   `MONGO_URI`: Your full MongoDB Atlas connection string.
         *   `JWT_SECRET`: Your unique and strong JWT secret key.
         *   `NEWS_API_KEY`: Your API key from NewsAPI.org.
+        *   `PIXABAY_API_KEY`: Your API key from Pixabay.com.
     *   Save the secret group.
 5.  **Deploy:**
     *   Click **"Apply"** or **"Create New Services"**. Render will deploy your service.
@@ -74,6 +79,7 @@ The easiest way to deploy the backend is using [Render](https://render.com/) and
 *   npm (usually comes with Node.js)
 *   MongoDB Atlas account (or a local MongoDB instance)
 *   NewsAPI.org API Key
+*   Pixabay API Key
 
 ### 1. Clone & Install
 
@@ -98,6 +104,9 @@ npm install
 
     # NewsAPI.org API Key for Hero Slider
     NEWS_API_KEY="your_news_api_key_here"
+
+    # Pixabay API Key for Image Search
+    PIXABAY_API_KEY="your_pixabay_api_key_here"
 
     # Port
     PORT=3000
@@ -140,7 +149,7 @@ The first admin user must be created manually for security.
 
 ### Content Management
 Once logged into the admin panel, you can:
-*   **Add Categories & Posts:** Use the "Manage Posts" and "Manage Categories" sections to create your own blog content.
+*   **Add Categories & Posts:** Use the "Manage Posts" and "Manage Categories" sections to create your own blog content. The "Manage Posts" page includes a **"Find Image"** button that uses the Pixabay API to help you find relevant featured images based on your post title.
 *   **Configure Site Settings:** Go to "Site Settings" to configure Google Analytics, SMTP, AdSense, etc.
 
 ---

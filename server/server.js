@@ -21,7 +21,8 @@ const settingsRoutes = require('./routes/settings');
 const sitemapRoutes = require('./routes/sitemap');
 const robotsRoutes = require('./routes/robots');
 const usersRoutes = require('./routes/users');
-const newsRoutes = require('./routes/newsRoutes'); // Added news route
+const newsRoutes = require('./routes/newsRoutes');
+const imagesRoutes = require('./routes/images'); // Added images route
 
 const app = express();
 
@@ -39,7 +40,8 @@ app.use('/api/ads', adsRoutes); // Admin only
 app.use('/api/auth', authRoutes);
 app.use('/api/settings', settingsRoutes); // Mostly admin, some public access handled in controller
 app.use('/api/users', usersRoutes);
-app.use('/api/news', newsRoutes); // Added news route mounting
+app.use('/api/news', newsRoutes);
+app.use('/api/images', imagesRoutes); // Added images route mounting
 
 // Sitemap and Robots.txt
 app.use('/', sitemapRoutes); // Serves /sitemap.xml

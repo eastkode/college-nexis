@@ -515,23 +515,46 @@ async function loadLatestPostsPreview() {
 
     previewGrid.innerHTML = '<div class="loading-spinner">Loading posts...</div>';
     const result = await fetchData('/posts?limit=3&sort=-createdAt'); // Fetch 3 newest posts
+
     if (result && result.success && result.data.length > 0) {
-        previewGrid.innerHTML = '';
-        result.data.forEach(post => {
+        previewGrid.innerHTML = ''; // Clear placeholders
+
+        // Use Promise.all to fetch images for posts without one, in parallel
+        const postPromises = result.data.map(async (post) => {
+            if (!post.featuredImage || post.featuredImage === 'no-photo.jpg') {
+                try {
+                    // Fetch an image from Pixabay based on the post title
+                    const imageResult = await fetchData(`/images/search?q=${encodeURIComponent(post.title)}`);
+                    if (imageResult.success && imageResult.data.length > 0) {
+                        // Use the webformatURL for a good balance of size and quality
+                        post.featuredImage = imageResult.data[0].webformatURL;
+                    }
+                } catch (e) {
+                    console.warn(`Could not fetch dynamic image for post "${post.title}"`, e);
+                    // Leave featuredImage as is, createPostCard will use a default
+                }
+            }
+            return post; // Return the post, now possibly with a new featuredImage
+        });
+
+        const postsWithImages = await Promise.all(postPromises);
+
+        postsWithImages.forEach(post => {
             previewGrid.appendChild(createPostCard(post));
         });
         lazyLoadImages(); // Re-run for newly added images
     } else {
-        previewGrid.innerHTML = '<p>No posts to display yet.</p>';
+        // If there are no posts, the static placeholders in the HTML will remain.
+        // We can choose to clear them or leave them. Let's leave them.
+        previewGrid.innerHTML = '<p style="text-align:center; width:100%;">No recent articles found. Check back soon!</p>';
     }
 }
 
-// Refactored to use the simpler Clearbit/logo.dev service
+// Using logo.dev service with the provided token
 function initializeLogoCarousel() {
     const carousel = document.getElementById('logo-carousel');
     if (!carousel) return;
 
-    // Corrected list of companies with more reliable root domains.
     const companies = [
         { name: "Suzuki", domain: "globalsuzuki.com" },
         { name: "Hyundai", domain: "hyundai.com" },
