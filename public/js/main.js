@@ -200,14 +200,15 @@ async function loadHeroSlider() {
                 const slide = document.createElement('a'); // Make the entire slide a link
                 slide.className = 'hero-slide';
                 slide.href = article.url;
-                slide.target = '_blank'; // Open news in a new tab
+                slide.target = '_blank';
                 slide.rel = 'noopener noreferrer';
 
-                // Use article image, with a fallback
+                // Set the background image via inline style
                 const imageUrl = article.urlToImage || 'img/default-hero.jpg';
+                slide.style.backgroundImage = `url('${imageUrl}')`;
 
+                // Set the inner content
                 slide.innerHTML = `
-                    <img src="${imageUrl}" alt="" loading="lazy">
                     <div class="hero-slide-content">
                         ${article.source.name ? `<span class="post-card-category">${article.source.name}</span>` : ''}
                         <h3>${article.title}</h3>
