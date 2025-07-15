@@ -32,7 +32,7 @@ function createPostCard(post) {
     card.innerHTML = `
         <a href="single-post.html?slug=${post.slug}" class="post-card-image-link">
             <div class="post-card-image">
-                <img src="${post.featuredImage || 'img/default-post.jpg'}" alt="${post.title}" loading="lazy">
+                <img src="${post.featuredImage || 'https://placehold.co/800x600.png?text=Loading...'}" alt="${post.title}" loading="lazy">
             </div>
         </a>
         <div class="post-card-content">
@@ -59,7 +59,7 @@ function createPostListItem(post) {
     listItem.innerHTML = `
         <div class="post-list-item-thumbnail">
             <a href="single-post.html?slug=${post.slug}">
-                <img src="${post.featuredImage || 'img/default-post-thumb.jpg'}" alt="${post.title}" loading="lazy">
+                <img src="${post.featuredImage || 'https://placehold.co/150x100.png?text=Loading...'}" alt="${post.title}" loading="lazy">
             </a>
         </div>
         <div class="post-list-item-content">
@@ -563,6 +563,7 @@ async function initializeLogoCarousel() {
     const carousel = document.getElementById('logo-carousel');
     if (!carousel) return;
 
+    console.log("DEBUG: Initializing Logo Carousel...");
     carousel.innerHTML = '<div class="loading-spinner" style="width:100%; text-align:center;">Loading logos...</div>';
 
     try {
@@ -571,6 +572,7 @@ async function initializeLogoCarousel() {
             throw new Error(`Could not fetch companies.json: ${response.statusText}`);
         }
         const companies = await response.json();
+        console.log(`DEBUG: Loaded ${companies.length} companies from JSON.`);
 
         carousel.innerHTML = ''; // Clear loading message
 
@@ -579,12 +581,15 @@ async function initializeLogoCarousel() {
         companies.forEach(company => {
             const img = document.createElement('img');
             const logoUrl = `https://img.logo.dev/${company.domain}?token=${apiToken}&format=png&retina=true`;
+            console.log(`DEBUG: Attempting to load logo for ${company.name} from ${logoUrl}`);
             img.src = logoUrl;
             img.alt = `${company.name} Logo`;
 
-            // Set a fallback image in case of an error
+            img.onload = () => {
+                console.log(`DEBUG: Successfully loaded logo for ${company.domain}`);
+            };
             img.onerror = () => {
-                console.warn(`Could not load logo for ${company.domain} from logo.dev. Using placeholder.`);
+                console.warn(`ERROR: Could not load logo for ${company.domain}. Falling back to placeholder.`);
                 img.src = `https://placehold.co/150x60/EEE/31343C?text=${company.name.split(' ')[0]}`;
             };
             carousel.appendChild(img);
@@ -596,7 +601,7 @@ async function initializeLogoCarousel() {
             carousel.innerHTML = "<p>Could not load company logos.</p>";
         }
     } catch (error) {
-        console.error('Error in initializeLogoCarousel:', error);
+        console.error('FATAL: Error in initializeLogoCarousel:', error);
         carousel.innerHTML = "<p>Error loading company list.</p>";
     }
 }
