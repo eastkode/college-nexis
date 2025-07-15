@@ -7,6 +7,7 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
 *   **Dynamic Frontend:** Built with HTML5, CSS3, and vanilla JavaScript. Content is dynamically fetched from the backend API.
 *   **Robust Backend:** Node.js with Express.js framework and MongoDB (via Atlas) for data storage.
 *   **Admin Panel:** Secure and user-friendly interface for managing posts, categories, users, sidebar widgets, advertisements, and site-wide settings.
+*   **Company Profiles:** A dedicated section to list companies and view their summaries, with data fetched live from the Wikimedia REST API.
 *   **Dynamic Imagery:**
     *   **Live News Slider:** Homepage hero slider is powered by NewsAPI.org, showing the latest relevant news.
     *   **Automatic Post Images:** Uses the Pixabay API to automatically find and display relevant images for blog posts that don't have a featured image set.
@@ -25,6 +26,7 @@ College Nexis is a modern, fully custom online magazine/blog platform designed f
     *   **NewsAPI.org:** Used for the live "Industry News" hero slider. Requires an API key.
     *   **Pixabay API:** Used to dynamically source images for blog posts. Requires an API key.
     *   **Clearbit Logo API:** Used for dynamically fetching company logos.
+    *   **Wikimedia REST API:** Used to fetch company profile summaries.
 
 ---
 
