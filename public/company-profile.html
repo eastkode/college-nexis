@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - College Nexis</title>
-    <meta name="description" content="Explore articles and insights on colleges, courses, exams, and careers.">
+    <title>Company Profile - College Nexis</title> <!-- Title will be updated by JS -->
+    <meta name="description" content="Company profile and information.">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Webmaster Tools meta will be injected here if set -->
-    <!-- Google Analytics script will be injected here -->
 </head>
 <body>
     <header>
@@ -18,7 +17,7 @@
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="categories.html">Categories</a></li>
                     <li><a href="companies.html">Companies</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -28,54 +27,25 @@
     </header>
 
     <main>
-        <section class="hero-slider-container blog-hero-slider">
+        <section class="page-header" id="company-profile-header">
             <div class="container">
-                <h2>Fresh Off The Press</h2>
-                <div class="hero-slider">
-                    <!-- Slides will be injected by JS - Same as homepage -->
-                </div>
-                <div class="slider-controls">
-                    <button class="prev">&#10094;</button>
-                    <button class="next">&#10095;</button>
-                </div>
+                <h1 id="company-name">Loading Company...</h1>
             </div>
         </section>
 
-        <section class="blog-content">
+        <section class="company-profile-content">
             <div class="container">
-                <div class="main-content">
-                    <div class="categories-section-tabs" id="category-tabs">
-                        <button class="category-tab active" data-category-slug="all">All Posts</button>
-                        <!-- Category tabs will be injected by JS -->
-                    </div>
-
-                    <h2>All Articles</h2>
-                    <div class="posts-grid" id="blog-posts-grid">
-                        <!-- 5 posts in card grid -->
-                    </div>
-
-                    <h2>More Reads</h2>
-                    <div class="posts-list" id="blog-posts-list">
-                        <!-- 6 posts in list view -->
-                    </div>
-
-                    <div class="pagination" id="pagination-controls">
-                        <!-- Pagination buttons will be dynamically added here -->
-                    </div>
+                <div id="company-profile-data" class="profile-container">
+                    <!-- Profile data will be injected by JS -->
+                    <div class="loading-spinner">Loading profile...</div>
                 </div>
-
-                <aside class="sidebar" id="sidebar-content">
-                    <!-- Sidebar widgets will be injected by JS -->
-                    <div class="widget"><h3>Loading Sidebar...</h3></div>
-                </aside>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer"> <!-- Ensure class consistency if not already done -->
+    <footer class="site-footer">
         <div class="container">
-            <!-- Assuming full footer structure is here like in index.html -->
-            <div class="footer-columns">
+             <div class="footer-columns">
                  <div class="footer-column">
                     <h4>About College Nexis</h4>
                     <p>Your ultimate guide to colleges, courses, exams, and career opportunities.</p>
@@ -86,6 +56,7 @@
                         <li><a href="index.html">Home</a></li>
                         <li><a href="blog.html">Blog</a></li>
                         <li><a href="categories.html">Categories</a></li>
+                        <li><a href="companies.html">Companies</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
@@ -102,6 +73,6 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/blog.js"></script>
+    <script src="js/company-profile.js"></script>
 </body>
 </html>

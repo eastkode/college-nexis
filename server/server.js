@@ -22,7 +22,8 @@ const sitemapRoutes = require('./routes/sitemap');
 const robotsRoutes = require('./routes/robots');
 const usersRoutes = require('./routes/users');
 const newsRoutes = require('./routes/newsRoutes');
-const imagesRoutes = require('./routes/images'); // Added images route
+const imagesRoutes = require('./routes/images');
+const wikipediaRoutes = require('./routes/wikipedia'); // Added wikipedia route
 
 const app = express();
 
@@ -41,7 +42,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/settings', settingsRoutes); // Mostly admin, some public access handled in controller
 app.use('/api/users', usersRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/images', imagesRoutes); // Added images route mounting
+app.use('/api/images', imagesRoutes);
+app.use('/api/wikipedia', wikipediaRoutes); // Added wikipedia route mounting
 
 // Sitemap and Robots.txt
 app.use('/', sitemapRoutes); // Serves /sitemap.xml

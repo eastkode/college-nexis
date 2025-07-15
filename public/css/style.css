@@ -1137,6 +1137,78 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .sr-only {
   position: absolute;
   width: 1px;
+}
+
+/* --- Page Header (for generic pages like Companies, Contact) --- */
+.page-header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 40px 0;
+    text-align: center;
+}
+.page-header h1 {
+    color: var(--white-color);
+    font-size: 2.8em;
+}
+.page-header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+/* --- Companies List Page --- */
+.companies-list-section {
+    padding: 50px 0;
+}
+.companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+.company-card {
+    background-color: var(--white-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.company-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.company-card h3 {
+    font-size: 1.4em;
+    color: var(--primary-color);
+    margin-top: 15px;
+}
+
+/* --- Single Company Profile Page --- */
+.company-profile-content {
+    padding: 50px 0;
+}
+.profile-container {
+    background: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.profile-container img.profile-thumbnail {
+    max-width: 200px;
+    height: auto;
+    border-radius: var(--border-radius);
+    float: left; /* Simple layout, can be improved with flex/grid */
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+.profile-container .profile-summary {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: var(--text-color);
+}
   height: 1px;
   padding: 0;
   margin: -1px;
